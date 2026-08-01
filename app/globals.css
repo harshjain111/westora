@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+/* =====================================================================
+   WESTORA GLOBAL — DESIGN TOKENS
+   =====================================================================
+   PALETTE LOCKED (Phase 2 / Prompt 27-28 visual lock pass).
+
+   Derivation: --color-brand-deep and --color-accent were sampled directly
+   from pixel data in the real Westora Global logo (public/images/logo-
+   full.png) — not eyeballed. The sampled accent gold (#c8a15a) reads
+   beautifully in the logo mark but fails WCAG AA as UI text/fills
+   (2.15–2.41:1 against our grounds), so it was darkened along its own
+   hue/saturation to #8a6224, which clears 4.5:1 everywhere it is used as
+   text or as a button fill under white text. --color-brand-mid is the
+   same hue lifted to ~30% lightness. --color-surface, --color-surface-
+   raised and --color-ink are unchanged from the provisional set — they
+   already matched the warm-cream / near-white / warm-charcoal palette
+   common to the reference board (Sprinkle Herbs & Spices, the Spice's
+   mockup, Hebbar's Spices) and the client's own catalogue PDF background.
+   Every foreground/background pair below is checked against WCAG AA
+   (4.5:1 body, 3:1 large text/non-text) — see the on-deep note below for
+   the one pair that needed a derived variant to pass.
+
+   TOKEN NAMES ARE FINAL. Do not rename. Do not add a seventh base colour.
+
+   RULE — every colour anywhere in this codebase must resolve to one of
+   these tokens. No raw hex (`bg-[#12301F]`), no Tailwind default palette
+   class (`bg-green-900`, `text-gray-600`), no inline `style={{ color }}`.
+   Swapping a value here must restyle the entire site with ZERO component
+   edits. If a palette swap ever requires touching a component file, the
+   token system has been implemented wrong — fix that first. See
+   CLAUDE.md §4.
+   ===================================================================== */
+
+@theme {
+  /* ---- Base colours (six only) ---- */
+  --color-brand-deep: #0d3320; /* dark surfaces: footer, quality section, solid nav */
+  --color-brand-mid: #24754d; /* secondary dark, hover states, hairline rules */
+  --color-accent: #8a6224; /* THE single accent — CTAs, active filter, GI chip */
+  --color-surface: #f4f2eb; /* page ground */
+  --color-surface-raised: #ffffff; /* cards, modal ground */
+  --color-ink: #2a2b27; /* body text — never pure black */
+
+  /* ---- Derived tokens (do not add new base colours) ---- */
+  --color-ink-muted: color-mix(in srgb, var(--color-ink) 62%, transparent);
+  --color-rule: color-mix(in srgb, var(--color-brand-mid) 15%, transparent);
+  --color-on-deep: var(--color-surface);
+  --color-on-deep-muted: color-mix(in srgb, var(--color-surface) 65%, transparent);
+  /* --color-accent alone only hits 2.55:1 against --color-brand-deep —
+     fails both the 3:1 floor for non-text UI (ProvenanceLine/OriginMap
+     dots on brand-deep) and 4.5:1 for small text (the OriginMap tooltip
+     state label). This lightened variant (same hue, L 0.50 instead of
+     0.34) hits 5.0:1 against brand-deep, clearing both. */
+  --color-accent-on-deep: #ca9035;
+
+  /* =====================================================================
+     TYPE SCALE — CLAUDE.md §5
+     rem steps: 0.75 / 0.875 / 1 / 1.25 / 1.75 / 2.5 / 4
+     Named by role, not by generic tee-shirt size, so intent stays
+     legible in component markup (text-h1, text-eyebrow, etc).
+     ===================================================================== */
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.6;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-lead: 1.25rem;
+  --text-lead--line-height: 1.6;
+  --text-h3: 1.75rem;
+  --text-h3--line-height: 1.05;
+  --text-h2: 2.5rem;
+  --text-h2--line-height: 1.05;
+  --text-h1: 4rem;
+  --text-h1--line-height: 1.05;
+
+  /* Font roles — files wired in app/fonts.ts (Prompt 4) */
+  --font-display: var(--font-instrument-serif), Georgia, serif;
+  --font-body: var(--font-inter-tight), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --tracking-mono-label: 0.02em;
+
+  /* =====================================================================
+     LAYOUT — CLAUDE.md §6
+     Spacing scale 4/8/12/16/24/32/48/64/96/128 maps onto Tailwind's
+     default spacing scale exactly (1=4px … 32=128px) — no redefinition
+     needed. Container and radius are explicit tokens below.
+     ===================================================================== */
+  --westora-container: 1320px;
+  --westora-gutter-mobile: 24px;
+  --westora-gutter-desktop: 64px;
+  --westora-section-mobile: 96px;
+  --westora-section-desktop: 160px;
+
+  /* Border radius: 2px maximum, or 0. No soft rounded cards. */
+  --radius-westora: 2px;
+
+  /* Dev-only marker for unverified: true specs (ProductSpecTable). Never
+     ships — stripped in production — so it sits outside the six-colour
+     production palette rule in CLAUDE.md §4 rather than breaking it. */
+  --color-dev-warning: #b45309;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Anchor targets sit 80px below the fixed nav (FR-1.2 / FR-9). */
+[id] {
+  scroll-margin-top: 80px;
+}
+
+/* prefers-reduced-motion baseline: components still add their own guards,
+   this is the last-resort net for anything that slips through. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
