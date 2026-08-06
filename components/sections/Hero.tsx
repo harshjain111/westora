@@ -67,7 +67,10 @@ export function Hero() {
             spec, delivered on schedule.
           </motion.p>
 
-          <motion.div variants={childVariants} className="mt-10 flex flex-wrap gap-4">
+          <motion.div
+            variants={childVariants}
+            className="mt-10 flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row"
+          >
             <Button
               as="a"
               href="#catalogue"

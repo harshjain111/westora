@@ -134,7 +134,7 @@ export function Catalogue({ initialCategory = "all" }: CatalogueProps) {
         <motion.div
           layout={!prefersReducedMotion}
           transition={{ duration: 0.3 }}
-          className="mt-10 grid grid-cols-1 gap-4 min-[640px]:grid-cols-2 min-[640px]:gap-6 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4"
+          className="mt-10 grid grid-cols-2 gap-3 min-[640px]:gap-6 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4"
         >
           {items.map((product, index) => (
             <motion.div

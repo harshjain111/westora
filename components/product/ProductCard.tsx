@@ -22,7 +22,7 @@ export function ProductCard({ product, onOpen, priority = false }: ProductCardPr
       }}
       aria-label={`${product.name} — view specifications and enquire`}
       className={cn(
-        "group block w-full rounded-card bg-surface-raised p-6 text-left shadow-[0_10px_35px_rgba(0,0,0,0.04)] transition-all duration-300",
+        "group block w-full rounded-card bg-surface-raised p-4 text-left shadow-[0_10px_35px_rgba(0,0,0,0.04)] transition-all duration-300 sm:p-6",
         "hover:-translate-y-[5px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent",
       )}
     >

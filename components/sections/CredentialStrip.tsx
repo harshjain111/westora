@@ -2,6 +2,7 @@ import { Container } from "@/components/ui/Container";
 import { Rule } from "@/components/ui/Rule";
 import { StatCell } from "@/components/ui/StatCell";
 import { company, filterEmpty } from "@/data/company";
+import { cn } from "@/lib/utils/cn";
 
 const CELLS = [
   { value: "17", label: "Origin-locked crops" },
@@ -32,7 +33,15 @@ export function CredentialStrip() {
           {CELLS.map((cell, index) => (
             <div
               key={cell.label}
-              className={index > 0 ? "border-t border-on-deep-muted pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10" : ""}
+              className={cn(
+                // Mobile is a 2-column grid: only the second row (index 2+)
+                // needs a divider, not "every cell after the first" — that
+                // was putting a stray line above the top-right cell only.
+                index >= 2 && "border-t border-on-deep-muted pt-6",
+                // Desktop collapses to one row: every cell but the first
+                // gets a left divider instead.
+                index > 0 && "lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10",
+              )}
             >
               <StatCell value={cell.value} label={cell.label} tone="on-deep" />
             </div>
