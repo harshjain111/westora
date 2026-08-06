@@ -6,7 +6,7 @@ import { ExportCsv } from "@/components/admin/ExportCsv";
 import { createClient } from "@/lib/supabase/server";
 import type { Lead, ProfileRole } from "@/types";
 
-export const metadata = { title: "Leads — Westora Global Admin" };
+export const metadata = { title: "Leads" };
 export const dynamic = "force-dynamic";
 
 const PAGE_SIZE = 25;

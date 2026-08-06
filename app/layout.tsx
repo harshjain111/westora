@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
-import { instrumentSerif, interTight, jetBrainsMono } from "./fonts";
+import { cormorantGaramond, inter, jetBrainsMono } from "./fonts";
 import { buildOrganizationJsonLd } from "@/lib/seo/jsonld";
+import { EnquiryModal } from "@/components/form/EnquiryModal";
+import { EnquiryModalProvider } from "@/lib/context/EnquiryModalContext";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://westoraglobal.com";
@@ -48,10 +50,13 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${instrumentSerif.variable} ${interTight.variable} ${jetBrainsMono.variable}`}
+      className={`${cormorantGaramond.variable} ${inter.variable} ${jetBrainsMono.variable}`}
     >
       <body className="font-body antialiased">
-        {children}
+        <EnquiryModalProvider>
+          {children}
+          <EnquiryModal />
+        </EnquiryModalProvider>
         <script
           type="application/ld+json"
           // eslint-disable-next-line react/no-danger

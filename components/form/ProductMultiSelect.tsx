@@ -1,4 +1,5 @@
 import { products } from "@/data/products";
+import { inputClassName } from "@/components/form/inputStyles";
 import { cn } from "@/lib/utils/cn";
 
 export interface ProductMultiSelectProps {
@@ -8,32 +9,48 @@ export interface ProductMultiSelectProps {
 }
 
 export function ProductMultiSelect({ value, onChange, id }: ProductMultiSelectProps) {
-  const toggle = (slug: string) => {
-    onChange(value.includes(slug) ? value.filter((s) => s !== slug) : [...value, slug]);
-  };
+  const selected = products.filter((product) => value.includes(product.slug));
+
+  const remove = (slug: string) => onChange(value.filter((s) => s !== slug));
 
   return (
-    <div id={id} role="group" className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-      {products.map((product) => {
-        const checked = value.includes(product.slug);
-        return (
-          <label
-            key={product.slug}
-            className={cn(
-              "flex min-h-11 cursor-pointer items-center gap-2 border px-3 py-2 text-small text-ink",
-              checked ? "border-accent bg-accent/5" : "border-rule",
-            )}
-          >
-            <input
-              type="checkbox"
-              checked={checked}
-              onChange={() => toggle(product.slug)}
-              className="h-4 w-4 accent-accent"
-            />
+    <div>
+      <select
+        id={id}
+        multiple
+        size={5}
+        value={value}
+        onChange={(event) =>
+          onChange(Array.from(event.target.selectedOptions, (option) => option.value))
+        }
+        className={cn(inputClassName, "py-2")}
+      >
+        {products.map((product) => (
+          <option key={product.slug} value={product.slug} className="px-2 py-1.5">
             {product.name}
-          </label>
-        );
-      })}
+          </option>
+        ))}
+      </select>
+      <p className="mt-1.5 text-small text-ink-muted">
+        Hold Ctrl (Windows) or Cmd (Mac) to select more than one.
+      </p>
+
+      {selected.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {selected.map((product) => (
+            <button
+              key={product.slug}
+              type="button"
+              onClick={() => remove(product.slug)}
+              className="flex items-center gap-1.5 rounded-westora border border-accent px-3 py-1 text-small text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            >
+              {product.name}
+              <span aria-hidden="true">×</span>
+              <span className="sr-only">Remove {product.name}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

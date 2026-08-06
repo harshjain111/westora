@@ -1,67 +1,86 @@
-import Image from "next/image";
-import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Heading } from "@/components/ui/Heading";
-import { EnquiryFormLazy as EnquiryForm } from "@/components/form/EnquiryFormLazy";
-import { company } from "@/data/company";
+"use client";
 
-// Reused from already-approved locked copy (Hero micro-trust line / the
-// enquiry success panel) rather than invented — no content-doc source for
-// this section's own body copy or "three commitment lines" exists.
-const COMMITMENTS = ["Samples in 7 days", "MOQ from 500 kg", "Reply within one working day"];
+import Image from "next/image";
+import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Container";
+import { Heading } from "@/components/ui/Heading";
+import { useEnquiryModal } from "@/lib/context/EnquiryModalContext";
+import { track } from "@/lib/analytics/track";
 
 export function EnquirySection() {
+  const { open } = useEnquiryModal();
+
+  const handleClick = () => {
+    track("hero_cta_click", { target: "quote" });
+    open();
+  };
+
   return (
-    <section id="enquiry" className="grid grid-cols-1 lg:grid-cols-2">
-      <div className="relative flex flex-col justify-center overflow-hidden bg-brand-deep py-24 lg:py-40">
-        <Image
-          src="/images/products/king-chilli-bhut-jolokia.jpg"
-          alt=""
-          fill
-          sizes="(min-width: 1024px) 50vw, 100vw"
-          className="object-cover opacity-[0.16]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-deep via-brand-deep/95 to-brand-deep/70" />
+    <section id="enquiry" className="relative overflow-hidden bg-brand-deep">
+      <Image
+        src="/images/start-sourcing.jpg"
+        alt="A branded Westora Global gift box beside bowls of cardamom and black pepper, with a Naturally Sourced tag"
+        fill
+        sizes="100vw"
+        className="object-cover object-[70%_center] sm:object-[62%_center] lg:object-center"
+      />
+      {/* Guarantees text contrast regardless of how much of the product
+          photo's darker left zone survives the responsive crop above. */}
+      <div className="absolute inset-0 bg-gradient-to-r from-brand-deep/90 via-brand-deep/55 to-transparent sm:via-brand-deep/35 sm:to-transparent lg:from-brand-deep/80 lg:via-brand-deep/25 lg:to-transparent" />
 
-        <Container className="relative lg:pr-0">
-          <Eyebrow tone="on-deep" as="p">
-            Start here
-          </Eyebrow>
-          <Heading level={2} className="mt-4 text-on-deep">
-            Tell us what you need.
-          </Heading>
-          <p className="mt-4 max-w-[46ch] text-lead text-on-deep-muted">
-            One form reaches the same team that sources, tests and ships every lot — no call
-            centre in between.
+      <Container className="relative flex min-h-[520px] flex-col items-center justify-center gap-8 py-20 text-center sm:min-h-[560px] sm:items-start sm:justify-center sm:text-left lg:min-h-[640px] lg:py-28">
+        <div className="flex items-center gap-3" aria-hidden="true">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-accent-on-deep/50">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="h-5 w-5 text-accent-on-deep"
+            >
+              <path d="M6 19c8 0 12-4 12-12V5h-2C8 5 6 11 6 15v4z" />
+              <path d="M6 19c2-3 5-6 10-8" />
+            </svg>
+          </span>
+          <p className="font-mono text-small uppercase tracking-mono-label text-accent-on-deep">
+            Start your sourcing journey
           </p>
+          <span className="hidden h-px w-16 bg-accent-on-deep/40 sm:block" />
+        </div>
 
-          <ul className="mt-12 flex flex-col gap-3 border-t border-rule pt-8">
-            {COMMITMENTS.map((line) => (
-              <li
-                key={line}
-                className="font-mono text-small tracking-mono-label text-on-deep-muted"
-              >
-                {line}
-              </li>
-            ))}
-          </ul>
+        <Heading level={2} className="max-w-[16ch] text-on-deep">
+          Source <em className="text-accent-on-deep">premium</em> ingredients.
+          <br />
+          Build lasting <em className="text-accent-on-deep">partnerships</em>.
+        </Heading>
 
-          <div className="mt-12 flex flex-col gap-2 border-t border-rule pt-8 text-small text-on-deep-muted">
-            <a href={`mailto:${company.contact.email}`} className="hover:text-on-deep">
-              {company.contact.email}
-            </a>
-            <a href={`tel:${company.contact.phone.replace(/\s/g, "")}`} className="hover:text-on-deep">
-              {company.contact.phone}
-            </a>
-          </div>
-        </Container>
-      </div>
+        <p className="max-w-[42ch] text-lead text-on-deep-muted">
+          From Northeast India to the world — quality you can trust, delivered with care.
+        </p>
 
-      <div className="bg-surface py-24 lg:py-40">
-        <Container className="lg:pl-0">
-          <EnquiryForm variant="full" sourceSection="main_form" />
-        </Container>
-      </div>
+        <Button
+          variant="primary"
+          size="lg"
+          className="bg-accent-on-deep text-brand-deep hover:brightness-95"
+          onClick={handleClick}
+        >
+          Request a quote
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-4 w-4"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </Button>
+      </Container>
     </section>
   );
 }

@@ -32,7 +32,7 @@ export function CredentialStrip() {
           {CELLS.map((cell, index) => (
             <div
               key={cell.label}
-              className={index > 0 ? "border-t border-rule pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10" : ""}
+              className={index > 0 ? "border-t border-on-deep-muted pt-6 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-10" : ""}
             >
               <StatCell value={cell.value} label={cell.label} tone="on-deep" />
             </div>
@@ -41,7 +41,7 @@ export function CredentialStrip() {
 
         {entries.length > 0 && (
           <>
-            <Rule className="mt-10 border-t-rule" />
+            <Rule className="mt-10 border-t-on-deep-muted" />
             <p className="mt-6 font-mono text-[11px] tracking-mono-label uppercase text-on-deep-muted">
               {entries.map(([key, val]) => `${REGISTRATION_LABELS[key]} ${val}`).join(" · ")}
             </p>

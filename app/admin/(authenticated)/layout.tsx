@@ -4,6 +4,11 @@ import { SignOutButton } from "@/components/admin/SignOutButton";
 import { Logo } from "@/components/ui/Logo";
 import { createClient } from "@/lib/supabase/server";
 
+// robots.txt already disallows /admin, but a page-level noindex is the
+// reliable signal that keeps authenticated admin pages out of search
+// results even if something links to them from outside the site.
+export const metadata = { robots: { index: false, follow: false } };
+
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const {

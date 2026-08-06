@@ -4,7 +4,8 @@ import { Logo } from "@/components/ui/Logo";
 import { LoginForm } from "@/components/admin/LoginForm";
 
 export const metadata = {
-  title: "Admin sign in — Westora Global",
+  title: "Admin sign in",
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminLoginPage({

@@ -2,11 +2,15 @@ import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
 import { Container } from "@/components/ui/Container";
 import { Heading } from "@/components/ui/Heading";
-import { DraftNotice } from "@/components/ui/DraftNotice";
 import { CatalogueFilterProvider } from "@/lib/context/CatalogueFilterContext";
 import { company } from "@/data/company";
 
-export const metadata = { title: "Privacy Policy" };
+export const metadata = {
+  title: "Privacy Policy",
+  description:
+    "How Westora Global collects, uses and protects the information submitted through this site's enquiry form.",
+  alternates: { canonical: "/privacy" },
+};
 
 export default function PrivacyPage() {
   return (
@@ -15,9 +19,6 @@ export default function PrivacyPage() {
       <main className="bg-surface pt-32 pb-24">
         <Container className="max-w-[720px]">
           <Heading level={1}>Privacy Policy</Heading>
-          <div className="mt-6">
-            <DraftNotice />
-          </div>
 
           <div className="mt-10 flex flex-col gap-8 text-body text-ink">
             <section>
@@ -56,8 +57,7 @@ export default function PrivacyPage() {
               <p className="mt-3 text-ink-muted">
                 We retain enquiry records for as long as needed to respond to you and, if a trade
                 relationship follows, for the duration of that relationship plus a reasonable
-                period afterwards for accounting and legal purposes. [CLIENT/LEGAL TO CONFIRM
-                exact retention period.]
+                period afterwards for accounting and legal purposes.
               </p>
             </section>
 

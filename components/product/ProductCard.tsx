@@ -21,14 +21,12 @@ export function ProductCard({ product, onOpen, priority = false }: ProductCardPr
         onOpen(product.slug);
       }}
       aria-label={`${product.name} — view specifications and enquire`}
-      className="group block w-full text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      className={cn(
+        "group block w-full rounded-card bg-surface-raised p-6 text-left shadow-[0_10px_35px_rgba(0,0,0,0.04)] transition-all duration-300",
+        "hover:-translate-y-[5px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent",
+      )}
     >
-      <div
-        className={cn(
-          "relative aspect-square overflow-hidden border border-transparent transition-colors duration-[350ms]",
-          "group-hover:border-accent/25",
-        )}
-      >
+      <div className="relative aspect-square w-full overflow-hidden rounded-photo">
         {image && (
           <Image
             src={image.src}
@@ -37,29 +35,33 @@ export function ProductCard({ product, onOpen, priority = false }: ProductCardPr
             priority={priority}
             loading={priority ? undefined : "lazy"}
             sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-[350ms] ease-out group-hover:scale-[1.06]"
+            className="object-cover transition-transform duration-[350ms] ease-out group-hover:scale-[1.03]"
           />
         )}
         {product.hasGI && (
-          <div className="absolute right-3 top-3">
-            <Chip variant="accent">GI</Chip>
+          <div className="absolute right-2 top-2">
+            <Chip variant="accent" className="bg-surface-raised">GI</Chip>
+          </div>
+        )}
+        {product.featured && (
+          <div className="absolute bottom-2 left-2">
+            <Chip variant="neutral" className="bg-surface-raised">Featured</Chip>
           </div>
         )}
       </div>
 
-      <div className="mt-4 flex items-start justify-between gap-2 transition-transform duration-[350ms] group-hover:-translate-y-2">
-        <div>
-          <p className="font-display text-lead text-ink">{product.name}</p>
-          <p className="mt-1 font-mono text-small tracking-mono-label text-ink-muted">
-            {product.origin}
-            {product.botanical ? ` · ${product.botanical}` : ""}
+      <div className="mt-5">
+        <p className="font-display text-lead font-medium text-ink">{product.name}</p>
+        <p className="mt-2 text-small text-ink-muted">
+          <span className="text-ink">Origin:</span> {product.origin}
+        </p>
+        {product.forms.length > 0 && (
+          <p className="mt-1 text-small text-ink-muted">
+            <span className="text-ink">Available in:</span> {product.forms.slice(0, 3).join(", ")}
           </p>
-        </div>
-        <span
-          aria-hidden="true"
-          className="mt-1 whitespace-nowrap font-mono text-small tracking-mono-label text-accent opacity-0 transition-opacity duration-[350ms] group-hover:opacity-100"
-        >
-          View specs →
+        )}
+        <span className="mt-4 inline-flex items-center gap-1.5 rounded-westora border border-accent px-4 py-1.5 font-mono text-small tracking-mono-label text-accent">
+          View details →
         </span>
       </div>
     </button>

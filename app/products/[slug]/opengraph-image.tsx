@@ -30,19 +30,19 @@ export default async function ProductOpengraphImage({
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "80px",
-          backgroundColor: "#0d3320",
+          backgroundColor: "#0f3d2e",
         }}
       >
-        <div style={{ display: "flex", fontSize: 26, letterSpacing: 4, color: "#ca9035" }}>
+        <div style={{ display: "flex", fontSize: 26, letterSpacing: 4, color: "#c9a052" }}>
           WESTORA GLOBAL
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontSize: 80, color: "#f4f2eb", fontWeight: 400 }}>
+          <div style={{ display: "flex", fontSize: 80, color: "#faf7f2", fontWeight: 400 }}>
             {product?.name ?? "Westora Global"}
           </div>
           {product && (
-            <div style={{ display: "flex", marginTop: 20, fontSize: 30, color: "#b9c4bc" }}>
+            <div style={{ display: "flex", marginTop: 20, fontSize: 30, color: "#a8b6ad" }}>
               {product.origin}
               {product.botanical ? ` · ${product.botanical}` : ""}
             </div>

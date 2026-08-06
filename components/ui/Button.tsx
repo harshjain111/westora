@@ -12,20 +12,28 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const variantClasses = {
+  // Design system §3: primary is a solid Forest Green fill, white text.
+  // Hover "becomes #0F3022" is approximated with brightness-90 on the
+  // existing brand-deep token rather than a seventh hardcoded colour —
+  // stays correct if the token ever changes.
   primary:
-    "bg-accent text-surface-raised hover:bg-brand-mid disabled:hover:bg-accent",
+    "bg-brand-deep text-surface-raised hover:brightness-90 disabled:hover:brightness-100",
+  // §3: transparent, gold border, forest-green text, fills ivory on hover.
   secondary:
-    "border border-ink text-ink hover:border-accent hover:text-accent disabled:hover:border-ink disabled:hover:text-ink",
+    "border-[1.5px] border-accent text-brand-deep hover:bg-surface disabled:hover:bg-transparent",
   "ghost-on-deep":
     // outline-accent-on-deep, not outline-accent: this variant only ever
     // renders on the brand-deep surface, where the base accent fails the
-    // 3:1 non-text contrast floor for a focus ring (2.55:1).
+    // 3:1 non-text contrast floor for a focus ring.
     "border border-on-deep-muted text-on-deep hover:border-on-deep disabled:hover:border-on-deep-muted focus-visible:outline-accent-on-deep",
 } as const;
 
+// Design system §1 Font Scale gives buttons their own fixed size (16px
+// semibold) independent of body/lead — so "lg" only adds horizontal
+// padding for emphasis, not a bigger type size.
 const sizeClasses = {
-  md: "min-h-11 px-6 text-body",
-  lg: "min-h-12 px-8 text-lead",
+  md: "min-h-[54px] px-[34px]",
+  lg: "min-h-[54px] px-11",
 } as const;
 
 export function Button({
@@ -44,9 +52,10 @@ export function Button({
   const isDisabled = disabled || loading;
 
   const classes = cn(
-    "inline-flex items-center justify-center gap-2 rounded-[2px] font-body text-[0.9375rem] font-medium transition-colors duration-200",
+    "inline-flex items-center justify-center gap-2 rounded-button font-body text-[16px] font-semibold transition-all duration-[250ms] ease-out",
+    "hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)]",
     "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
-    "disabled:cursor-not-allowed disabled:opacity-50",
+    "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none",
     variantClasses[variant],
     sizeClasses[size],
     className,

@@ -2,11 +2,14 @@ import { Nav } from "@/components/sections/Nav";
 import { Footer } from "@/components/sections/Footer";
 import { Container } from "@/components/ui/Container";
 import { Heading } from "@/components/ui/Heading";
-import { DraftNotice } from "@/components/ui/DraftNotice";
 import { CatalogueFilterProvider } from "@/lib/context/CatalogueFilterContext";
 import { company } from "@/data/company";
 
-export const metadata = { title: "Terms of Use" };
+export const metadata = {
+  title: "Terms of Use",
+  description: "Terms governing use of the Westora Global website and its enquiry form.",
+  alternates: { canonical: "/terms" },
+};
 
 export default function TermsPage() {
   return (
@@ -15,9 +18,6 @@ export default function TermsPage() {
       <main className="bg-surface pt-32 pb-24">
         <Container className="max-w-[720px]">
           <Heading level={1}>Terms of Use</Heading>
-          <div className="mt-6">
-            <DraftNotice />
-          </div>
 
           <div className="mt-10 flex flex-col gap-8 text-body text-ink">
             <section>
@@ -54,13 +54,6 @@ export default function TermsPage() {
               <p className="mt-3 text-ink-muted">
                 Text, photography and design on this site belong to Westora Global or its
                 licensors and may not be reused without permission.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="font-display text-h3 text-ink">Governing law</h2>
-              <p className="mt-3 text-ink-muted">
-                [CLIENT/LEGAL TO CONFIRM governing law and jurisdiction.]
               </p>
             </section>
 

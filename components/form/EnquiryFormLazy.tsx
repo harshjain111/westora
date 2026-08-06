@@ -16,7 +16,7 @@ export const EnquiryFormLazy = dynamic<EnquiryFormProps>(
     loading: () => (
       <div
         aria-hidden="true"
-        className="h-[420px] w-full animate-pulse border border-rule bg-surface-raised"
+        className="h-[900px] w-full animate-pulse rounded-input border border-rule bg-surface-raised"
       />
     ),
   },

@@ -22,8 +22,8 @@ export interface NotificationEmailProps {
 // Inline hex below, not CLAUDE.md §4 tokens: email clients (Gmail,
 // Outlook, etc.) don't reliably support CSS custom properties, so the
 // token system can't reach here. Values are hand-matched to the locked
-// palette instead — #f4f2eb surface, #ffffff surface-raised, #2a2b27 ink,
-// #8a6224 accent, #6b6b64 an ink-muted approximation.
+// palette instead — #faf7f2 surface, #ffffff surface-raised, #1a1a1a ink,
+// #8a6a2c accent, #717171 an ink-muted approximation.
 export function NotificationEmail({
   reference,
   fullName,
@@ -43,10 +43,10 @@ export function NotificationEmail({
     <Html>
       <Head />
       <Preview>New enquiry — {products.join(", ")} — {companyName} ({country})</Preview>
-      <Body style={{ fontFamily: "Helvetica, Arial, sans-serif", backgroundColor: "#f4f2eb" }}>
+      <Body style={{ fontFamily: "Helvetica, Arial, sans-serif", backgroundColor: "#faf7f2" }}>
         <Container style={{ backgroundColor: "#ffffff", padding: "32px", maxWidth: "560px" }}>
           <Heading style={{ fontSize: "20px", margin: "0 0 4px" }}>New enquiry</Heading>
-          <Text style={{ color: "#6b6b64", fontSize: "13px", margin: "0 0 24px" }}>
+          <Text style={{ color: "#717171", fontSize: "13px", margin: "0 0 24px" }}>
             Reference {reference} · via {sourceSection}
             {sourceProduct ? ` (${sourceProduct})` : ""}
           </Text>
@@ -54,44 +54,44 @@ export function NotificationEmail({
           <Section>
             <Row>
               <Column>
-                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#6b6b64" }}>Name</Text>
+                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#717171" }}>Name</Text>
                 <Text style={{ margin: "0 0 16px", fontSize: "15px" }}>{fullName}</Text>
               </Column>
             </Row>
             <Row>
               <Column>
-                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#6b6b64" }}>Company</Text>
+                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#717171" }}>Company</Text>
                 <Text style={{ margin: "0 0 16px", fontSize: "15px" }}>{companyName}</Text>
               </Column>
             </Row>
             <Row>
               <Column>
-                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#6b6b64" }}>Email</Text>
+                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#717171" }}>Email</Text>
                 <Text style={{ margin: "0 0 16px", fontSize: "15px" }}>{email}</Text>
               </Column>
             </Row>
             <Row>
               <Column>
-                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#6b6b64" }}>Phone</Text>
+                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#717171" }}>Phone</Text>
                 <Text style={{ margin: "0 0 16px", fontSize: "15px" }}>{phone}</Text>
               </Column>
             </Row>
             <Row>
               <Column>
-                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#6b6b64" }}>Country</Text>
+                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#717171" }}>Country</Text>
                 <Text style={{ margin: "0 0 16px", fontSize: "15px" }}>{country}</Text>
               </Column>
             </Row>
             <Row>
               <Column>
-                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#6b6b64" }}>Products</Text>
+                <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#717171" }}>Products</Text>
                 <Text style={{ margin: "0 0 16px", fontSize: "15px" }}>{products.join(", ")}</Text>
               </Column>
             </Row>
             {volume && (
               <Row>
                 <Column>
-                  <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#6b6b64" }}>
+                  <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#717171" }}>
                     Estimated volume
                   </Text>
                   <Text style={{ margin: "0 0 16px", fontSize: "15px" }}>{volume}</Text>
@@ -101,7 +101,7 @@ export function NotificationEmail({
             {destinationPort && (
               <Row>
                 <Column>
-                  <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#6b6b64" }}>
+                  <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#717171" }}>
                     Destination port
                   </Text>
                   <Text style={{ margin: "0 0 16px", fontSize: "15px" }}>{destinationPort}</Text>
@@ -111,16 +111,16 @@ export function NotificationEmail({
             {message && (
               <Row>
                 <Column>
-                  <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#6b6b64" }}>Message</Text>
+                  <Text style={{ margin: "0 0 2px", fontSize: "12px", color: "#717171" }}>Message</Text>
                   <Text style={{ margin: "0 0 16px", fontSize: "15px" }}>{message}</Text>
                 </Column>
               </Row>
             )}
           </Section>
 
-          <Hr style={{ borderColor: "#e5e0d3", margin: "24px 0" }} />
+          <Hr style={{ borderColor: "#e4e4e4", margin: "24px 0" }} />
 
-          <Link href={adminUrl} style={{ fontSize: "14px", color: "#8a6224" }}>
+          <Link href={adminUrl} style={{ fontSize: "14px", color: "#8a6a2c" }}>
             Open in admin →
           </Link>
         </Container>

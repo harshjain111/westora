@@ -18,17 +18,17 @@ export function AutoReplyEmail({ fullName, reference }: AutoReplyEmailProps) {
     <Html>
       <Head />
       <Preview>Enquiry received — {reference}</Preview>
-      <Body style={{ fontFamily: "Georgia, serif", backgroundColor: "#f4f2eb" }}>
+      <Body style={{ fontFamily: "Georgia, serif", backgroundColor: "#faf7f2" }}>
         <Container style={{ backgroundColor: "#ffffff", padding: "40px", maxWidth: "560px" }}>
           <Heading style={{ fontSize: "22px", margin: "0 0 16px", fontWeight: 400 }}>
             Enquiry received.
           </Heading>
 
           <Section>
-            <Text style={{ fontSize: "15px", lineHeight: "1.6", color: "#2a2b27" }}>
+            <Text style={{ fontSize: "15px", lineHeight: "1.6", color: "#1a1a1a" }}>
               Hello {fullName},
             </Text>
-            <Text style={{ fontSize: "15px", lineHeight: "1.6", color: "#2a2b27" }}>
+            <Text style={{ fontSize: "15px", lineHeight: "1.6", color: "#1a1a1a" }}>
               We&apos;ve sent a copy to your email. Someone from our team will reply within one
               working day — usually sooner.
             </Text>
@@ -37,7 +37,7 @@ export function AutoReplyEmail({ fullName, reference }: AutoReplyEmailProps) {
                 fontFamily: "monospace",
                 fontSize: "13px",
                 letterSpacing: "0.02em",
-                color: "#2a2b27",
+                color: "#1a1a1a",
                 marginTop: "24px",
               }}
             >
@@ -45,9 +45,9 @@ export function AutoReplyEmail({ fullName, reference }: AutoReplyEmailProps) {
             </Text>
           </Section>
 
-          <Hr style={{ borderColor: "#e5e0d3", margin: "24px 0" }} />
+          <Hr style={{ borderColor: "#e4e4e4", margin: "24px 0" }} />
 
-          <Text style={{ fontSize: "12px", color: "#6b6b64" }}>Westora Global</Text>
+          <Text style={{ fontSize: "12px", color: "#717171" }}>Westora Global</Text>
         </Container>
       </Body>
     </Html>

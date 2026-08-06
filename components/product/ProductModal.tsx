@@ -166,7 +166,7 @@ export function ProductModal({ slug, category, onClose, onNavigate }: ProductMod
         role="dialog"
         aria-modal="true"
         aria-labelledby="product-modal-title"
-        className="relative flex h-[92svh] w-full max-w-[1100px] flex-col overflow-hidden bg-surface-raised md:h-auto md:max-h-[88svh] md:flex-row"
+        className="relative flex h-[92svh] w-full max-w-[1100px] flex-col overflow-hidden bg-surface-raised md:h-auto md:max-h-[88svh] md:flex-row md:rounded-photo"
         initial={dialogHidden}
         animate={isVisible ? dialogShown : dialogHidden}
         transition={{ duration: EXIT_DURATION_MS / 1000 }}
@@ -176,7 +176,7 @@ export function ProductModal({ slug, category, onClose, onNavigate }: ProductMod
           onClick={onClose}
           aria-label="Close"
           data-autofocus
-          className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center bg-surface-raised/90 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent md:right-6 md:top-6"
+          className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-surface-raised/90 text-ink shadow-[0_1px_8px_color-mix(in_srgb,var(--color-brand-deep)_14%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent md:right-6 md:top-6"
         >
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
             <path d="M1 1L17 17M17 1L1 17" stroke="currentColor" strokeWidth="1.5" />
@@ -188,7 +188,7 @@ export function ProductModal({ slug, category, onClose, onNavigate }: ProductMod
             type="button"
             onClick={() => onNavigate(prevProduct.slug)}
             aria-label={`Previous product — ${prevProduct.name}`}
-            className="absolute left-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center bg-surface-raised/90 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent md:flex"
+            className="absolute left-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-surface-raised/90 text-ink shadow-[0_1px_8px_color-mix(in_srgb,var(--color-brand-deep)_14%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent md:flex"
           >
             ←
           </button>
@@ -198,14 +198,14 @@ export function ProductModal({ slug, category, onClose, onNavigate }: ProductMod
             type="button"
             onClick={() => onNavigate(nextProduct.slug)}
             aria-label={`Next product — ${nextProduct.name}`}
-            className="absolute right-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center bg-surface-raised/90 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent md:right-20 md:flex"
+            className="absolute right-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-surface-raised/90 text-ink shadow-[0_1px_8px_color-mix(in_srgb,var(--color-brand-deep)_14%,transparent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent md:right-20 md:flex"
           >
             →
           </button>
         )}
 
-        <div className="overflow-y-auto md:w-1/2 md:overflow-y-visible">
-          <div className="relative aspect-square w-full shrink-0">
+        <div className="overflow-y-auto p-4 md:w-1/2 md:overflow-y-visible md:p-6">
+          <div className="relative aspect-square w-full shrink-0 overflow-hidden rounded-photo">
             {displayProduct.images[0] && (
               <Image
                 src={displayProduct.images[0].src}

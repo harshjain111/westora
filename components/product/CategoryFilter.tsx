@@ -55,7 +55,7 @@ export function CategoryFilter({ value, onChange }: CategoryFilterProps) {
               }
             }}
             className={cn(
-              "flex min-h-11 items-center border px-4 py-2 font-mono text-small tracking-mono-label uppercase transition-colors duration-200",
+              "flex min-h-11 items-center rounded-westora border px-4 py-2 font-mono text-small tracking-mono-label uppercase transition-colors duration-200",
               "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
               isActive
                 ? "border-accent bg-accent text-surface-raised"

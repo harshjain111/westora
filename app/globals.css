@@ -3,28 +3,34 @@
 /* =====================================================================
    WESTORA GLOBAL — DESIGN TOKENS
    =====================================================================
-   PALETTE LOCKED (Phase 2 / Prompt 27-28 visual lock pass).
+   PALETTE REPLACED AGAIN — client supplied a full, detailed "Quiet
+   Luxury" design system (2026-08, v3) superseding the prior brand-board
+   pass. This is the current design authority; the accessibility floor in
+   CLAUDE.md §12 remains absolute regardless of what any reference shows.
 
-   Derivation: --color-brand-deep and --color-accent were sampled directly
-   from pixel data in the real Westora Global logo (public/images/logo-
-   full.png) — not eyeballed. The sampled accent gold (#c8a15a) reads
-   beautifully in the logo mark but fails WCAG AA as UI text/fills
-   (2.15–2.41:1 against our grounds), so it was darkened along its own
-   hue/saturation to #8a6224, which clears 4.5:1 everywhere it is used as
-   text or as a button fill under white text. --color-brand-mid is the
-   same hue lifted to ~30% lightness. --color-surface, --color-surface-
-   raised and --color-ink are unchanged from the provisional set — they
-   already matched the warm-cream / near-white / warm-charcoal palette
-   common to the reference board (Sprinkle Herbs & Spices, the Spice's
-   mockup, Hebbar's Spices) and the client's own catalogue PDF background.
-   Every foreground/background pair below is checked against WCAG AA
-   (4.5:1 body, 3:1 large text/non-text) — see the on-deep note below for
-   the one pair that needed a derived variant to pass.
+   Derivation: --color-brand-deep, --color-surface, --color-surface-
+   raised and --color-ink are the design system's named swatches verbatim
+   (Forest Green #143C2B, Warm Ivory #FAF8F2, white, Charcoal #1F1F1F).
+   --color-brand-mid uses the system's own named secondary tone, Sage
+   #6E8B6B, rather than a derived tint — the first time a reference has
+   supplied one directly.
+
+   --color-accent is NOT the system's raw Gold #B68A3D — that value is
+   2.95–3.14:1 against our light grounds, short of the 4.5:1 body-text
+   floor. Darkened along its own hue to #8a682e (4.8–5.1:1). The raw gold
+   itself also falls short as TEXT on brand-deep (3.91:1, need 4.5:1 —
+   only non-text UI needs just 3:1), so --color-accent-on-deep is a
+   lightened variant, #c9a25f (5.15:1 on brand-deep), not the raw swatch.
+
+   --color-ink-muted and --color-rule are tuned (51% / 11% mixes) to land
+   on the system's own named Stone (#8D8D8D) and Border (#E9E7E2) values
+   when flattened over white, while staying mix-based so they still read
+   correctly over both surface grounds (ivory and white), not just one.
 
    TOKEN NAMES ARE FINAL. Do not rename. Do not add a seventh base colour.
 
    RULE — every colour anywhere in this codebase must resolve to one of
-   these tokens. No raw hex (`bg-[#12301F]`), no Tailwind default palette
+   these tokens. No raw hex (`bg-[#143C2B]`), no Tailwind default palette
    class (`bg-green-900`, `text-gray-600`), no inline `style={{ color }}`.
    Swapping a value here must restyle the entire site with ZERO component
    edits. If a palette swap ever requires touching a component file, the
@@ -34,67 +40,70 @@
 
 @theme {
   /* ---- Base colours (six only) ---- */
-  --color-brand-deep: #0d3320; /* dark surfaces: footer, quality section, solid nav */
-  --color-brand-mid: #24754d; /* secondary dark, hover states, hairline rules */
-  --color-accent: #8a6224; /* THE single accent — CTAs, active filter, GI chip */
-  --color-surface: #f4f2eb; /* page ground */
-  --color-surface-raised: #ffffff; /* cards, modal ground */
-  --color-ink: #2a2b27; /* body text — never pure black */
+  --color-brand-deep: #143c2b; /* Forest Green — dark surfaces, CTA banner, solid nav */
+  --color-brand-mid: #6e8b6b; /* Sage — secondary tone, hover states, hairline rules on dark */
+  --color-accent: #8a682e; /* THE single accent — CTAs, links, active states, eyebrows */
+  --color-surface: #faf8f2; /* Warm Ivory — page ground */
+  --color-surface-raised: #ffffff; /* cards, modal ground, form fields */
+  --color-ink: #1f1f1f; /* Charcoal — body text */
 
   /* ---- Derived tokens (do not add new base colours) ---- */
-  --color-ink-muted: color-mix(in srgb, var(--color-ink) 62%, transparent);
-  --color-rule: color-mix(in srgb, var(--color-brand-mid) 15%, transparent);
+  --color-ink-muted: color-mix(in srgb, var(--color-ink) 51%, transparent);
+  --color-rule: color-mix(in srgb, var(--color-ink) 11%, transparent);
   --color-on-deep: var(--color-surface);
   --color-on-deep-muted: color-mix(in srgb, var(--color-surface) 65%, transparent);
-  /* --color-accent alone only hits 2.55:1 against --color-brand-deep —
-     fails both the 3:1 floor for non-text UI (ProvenanceLine/OriginMap
-     dots on brand-deep) and 4.5:1 for small text (the OriginMap tooltip
-     state label). This lightened variant (same hue, L 0.50 instead of
-     0.34) hits 5.0:1 against brand-deep, clearing both. */
-  --color-accent-on-deep: #ca9035;
+  /* Lightened gold for use on brand-deep — the raw accent is too dark to
+     clear AA there; see the derivation note above. */
+  --color-accent-on-deep: #c9a25f;
 
   /* =====================================================================
-     TYPE SCALE — CLAUDE.md §5
-     rem steps: 0.75 / 0.875 / 1 / 1.25 / 1.75 / 2.5 / 4
-     Named by role, not by generic tee-shirt size, so intent stays
-     legible in component markup (text-h1, text-eyebrow, etc).
+     TYPE SCALE — design system §1 scale (72/44/22/18/15/13px), rebuilt
+     with a decisive jump between steps rather than a gradual one.
      ===================================================================== */
-  --text-eyebrow: 0.75rem;
+  --text-eyebrow: 0.8125rem; /* 13px — Labels */
   --text-eyebrow--line-height: 1.4;
-  --text-small: 0.875rem;
+  --text-small: 0.9375rem; /* 15px — Small text */
   --text-small--line-height: 1.6;
-  --text-body: 1rem;
-  --text-body--line-height: 1.6;
-  --text-lead: 1.25rem;
-  --text-lead--line-height: 1.6;
+  --text-body: 1.125rem; /* 18px — Body */
+  --text-body--line-height: 1.65;
+  --text-lead: 1.375rem; /* 22px — Subheading */
+  --text-lead--line-height: 1.5;
   --text-h3: 1.75rem;
-  --text-h3--line-height: 1.05;
-  --text-h2: 2.5rem;
-  --text-h2--line-height: 1.05;
-  --text-h1: 4rem;
-  --text-h1--line-height: 1.05;
+  --text-h3--line-height: 1.15;
+  --text-h2: 2.75rem; /* 44px — Section heading */
+  --text-h2--line-height: 1.1;
+  --text-h1: 4.5rem; /* 72px desktop — Hero */
+  --text-h1--line-height: 1.1;
 
-  /* Font roles — files wired in app/fonts.ts (Prompt 4) */
-  --font-display: var(--font-instrument-serif), Georgia, serif;
-  --font-body: var(--font-inter-tight), system-ui, sans-serif;
+  /* Font roles — files wired in app/fonts.ts. Canela (design system's
+     named display face) has no free self-hostable release; Cormorant
+     Garamond is the system's own named free alternative. Body = Inter,
+     per spec. */
+  --font-display: var(--font-cormorant-garamond), Georgia, serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
   --tracking-mono-label: 0.02em;
+  --tracking-display: -0.02em;
 
   /* =====================================================================
-     LAYOUT — CLAUDE.md §6
-     Spacing scale 4/8/12/16/24/32/48/64/96/128 maps onto Tailwind's
-     default spacing scale exactly (1=4px … 32=128px) — no redefinition
-     needed. Container and radius are explicit tokens below.
+     LAYOUT — design system §10/§20
      ===================================================================== */
   --westora-container: 1320px;
   --westora-gutter-mobile: 24px;
-  --westora-gutter-desktop: 64px;
+  --westora-gutter-desktop: 80px;
   --westora-section-mobile: 96px;
-  --westora-section-desktop: 160px;
+  --westora-section-desktop: 120px;
 
-  /* Border radius: 2px maximum, or 0. No soft rounded cards. */
-  --radius-westora: 2px;
+  /* =====================================================================
+     BORDER RADIUS SYSTEM — design system §19
+     Buttons 14px, cards/images 20px, inputs 16px, badges pill.
+     ===================================================================== */
+  --radius-button: 14px;
+  --radius-card: 20px;
+  --radius-photo: 20px;
+  --radius-input: 16px;
+  --radius-westora: 999px; /* badges/pills only */
 
   /* Dev-only marker for unverified: true specs (ProductSpecTable). Never
      ships — stripped in production — so it sits outside the six-colour
@@ -106,16 +115,16 @@ body {
   background: var(--color-surface);
   color: var(--color-ink);
   font-family: var(--font-body);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-/* Anchor targets sit 80px below the fixed nav (FR-1.2 / FR-9). */
+/* Anchor targets sit under the fixed 88px nav (design system §4). */
 [id] {
-  scroll-margin-top: 80px;
+  scroll-margin-top: 96px;
 }
 
 /* prefers-reduced-motion baseline: components still add their own guards,

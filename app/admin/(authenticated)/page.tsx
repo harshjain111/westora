@@ -3,7 +3,7 @@ import { SubmissionsChart } from "@/components/admin/SubmissionsChart";
 import { getDashboardStats } from "@/lib/admin/queries";
 import { createClient } from "@/lib/supabase/server";
 
-export const metadata = { title: "Dashboard — Westora Global Admin" };
+export const metadata = { title: "Dashboard" };
 export const dynamic = "force-dynamic";
 
 const STATUS_LABELS: Record<string, string> = {

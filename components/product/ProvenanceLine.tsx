@@ -28,7 +28,11 @@ export function ProvenanceLine({ nodes, size = "inline", onDeep = false, classNa
           <p
             key={`place-${node}`}
             className={cn(
-              "text-center font-mono tracking-mono-label uppercase text-current",
+              // min-w-0: without it, CSS Grid items default to
+              // min-width:auto (their min-content size), which lets long
+              // unbreakable labels like "Felixstowe / New York" blow out
+              // the grid track and overflow the page on narrow viewports.
+              "min-w-0 break-words text-center font-mono tracking-mono-label uppercase text-current",
               isFeature ? "text-body" : "text-eyebrow",
             )}
           >
@@ -48,7 +52,7 @@ export function ProvenanceLine({ nodes, size = "inline", onDeep = false, classNa
         />
         <div className="relative grid h-full" style={columns}>
           {nodes.map((node, index) => (
-            <div key={`dot-${node}`} className="flex items-center justify-center">
+            <div key={`dot-${node}`} className="flex min-w-0 items-center justify-center">
               <motion.span
                 className={cn("block rounded-full", accentClass, isFeature ? "h-3 w-3" : "h-2 w-2")}
                 initial={prefersReducedMotion ? { scale: 1 } : { scale: 0 }}
@@ -70,7 +74,7 @@ export function ProvenanceLine({ nodes, size = "inline", onDeep = false, classNa
           <p
             key={`role-${node}`}
             className={cn(
-              "text-center font-mono tracking-mono-label uppercase text-current opacity-60",
+              "min-w-0 text-center font-mono tracking-mono-label uppercase text-current opacity-60",
               isFeature ? "text-small" : "text-eyebrow",
             )}
           >
