@@ -5,11 +5,15 @@ import { Heading } from "@/components/ui/Heading";
 import { CatalogueFilterProvider } from "@/lib/context/CatalogueFilterContext";
 import { company } from "@/data/company";
 
+const PRIVACY_DESCRIPTION =
+  "How Westora Global collects, uses and protects the information submitted through this site's enquiry form.";
+
 export const metadata = {
   title: "Privacy Policy",
-  description:
-    "How Westora Global collects, uses and protects the information submitted through this site's enquiry form.",
+  description: PRIVACY_DESCRIPTION,
   alternates: { canonical: "/privacy" },
+  openGraph: { title: "Privacy Policy | Westora Global", description: PRIVACY_DESCRIPTION },
+  twitter: { title: "Privacy Policy | Westora Global", description: PRIVACY_DESCRIPTION },
 };
 
 export default function PrivacyPage() {

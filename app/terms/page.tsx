@@ -5,10 +5,14 @@ import { Heading } from "@/components/ui/Heading";
 import { CatalogueFilterProvider } from "@/lib/context/CatalogueFilterContext";
 import { company } from "@/data/company";
 
+const TERMS_DESCRIPTION = "Terms governing use of the Westora Global website and its enquiry form.";
+
 export const metadata = {
   title: "Terms of Use",
-  description: "Terms governing use of the Westora Global website and its enquiry form.",
+  description: TERMS_DESCRIPTION,
   alternates: { canonical: "/terms" },
+  openGraph: { title: "Terms of Use | Westora Global", description: TERMS_DESCRIPTION },
+  twitter: { title: "Terms of Use | Westora Global", description: TERMS_DESCRIPTION },
 };
 
 export default function TermsPage() {
