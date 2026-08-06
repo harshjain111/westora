@@ -156,7 +156,18 @@ export function Footer() {
         )}
 
         <div className="mt-8 flex flex-col gap-4 border-t border-on-deep-muted pt-6 text-small text-on-deep-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 Westora Global. All rights reserved. · Designed and built by Vibrnd</p>
+          <p className="flex flex-wrap items-center gap-x-1.5">
+            <span>© 2026 Westora Global. All rights reserved. · Designed and built by</span>
+            <a
+              href="https://www.vibrnd.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Vibrnd — opens in a new tab"
+              className="inline-flex items-center opacity-90 transition-opacity hover:opacity-100"
+            >
+              <Image src="/images/vibrnd-logo.png" alt="Vibrnd" width={2806} height={1098} className="h-4 w-auto" />
+            </a>
+          </p>
         </div>
       </Container>
     </footer>
