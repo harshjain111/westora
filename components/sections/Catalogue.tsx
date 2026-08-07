@@ -99,6 +99,14 @@ export function Catalogue({ initialCategory = "all" }: CatalogueProps) {
             className="object-cover"
             priority
           />
+          {/* Image overlay scrim — the one gradient CLAUDE.md §4 permits —
+              fades the photo's left edge into bg-surface so the crop line
+              doesn't read as a hard seam against the page background. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 left-0 w-1/3"
+            style={{ background: "linear-gradient(to right, var(--color-surface), transparent)" }}
+          />
         </div>
 
         <Container className="relative py-24 lg:py-32">
