@@ -27,7 +27,7 @@ export function CredentialStrip() {
   const entries = Object.entries(registrations) as [keyof typeof company.registrations, string][];
 
   return (
-    <div className="bg-brand-deep">
+    <div id="credentials" className="bg-brand-deep">
       <Container className="py-12">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 lg:gap-10">
           {CELLS.map((cell, index) => (

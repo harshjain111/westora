@@ -66,13 +66,25 @@ export default function PrivacyPage() {
             </section>
 
             <section>
+              <h2 className="font-display text-h3 text-ink">Cookies and analytics</h2>
+              <p className="mt-3 text-ink-muted">
+                If you click &quot;Allow&quot; on the cookie notice, we store a random identifier
+                in your browser and use it to record which pages you visit, roughly how long you
+                spend on each part of a page, and the general area of the page you click —
+                nothing tied to your name, email or any other personal detail, and never sold or
+                shared with advertisers. If you click &quot;Disallow&quot;, none of this is
+                recorded and the site works exactly the same either way. You can change your mind
+                at any time by clearing your browser&apos;s site data for this domain.
+              </p>
+            </section>
+
+            <section>
               <h2 className="font-display text-h3 text-ink">Third-party processors</h2>
               <p className="mt-3 text-ink-muted">
                 We use the following processors to operate this site and respond to enquiries:
                 Supabase (database hosting), Resend (transactional email delivery), Vercel
-                (website hosting), Cloudflare (spam/bot protection on the enquiry form), and
-                Plausible (cookieless website analytics). Each processes data only as needed to
-                provide their service to us.
+                (website hosting), and Cloudflare (spam/bot protection on the enquiry form). Each
+                processes data only as needed to provide their service to us.
               </p>
             </section>
 

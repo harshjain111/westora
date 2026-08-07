@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { cormorantGaramond, inter } from "./fonts";
 import { buildOrganizationJsonLd } from "@/lib/seo/jsonld";
 import { EnquiryModal } from "@/components/form/EnquiryModal";
 import { EnquiryModalProvider } from "@/lib/context/EnquiryModalContext";
+import { CookieConsentProvider } from "@/lib/context/CookieConsentContext";
+import { CookieConsentBanner } from "@/components/ui/CookieConsentBanner";
+import { AnalyticsScripts } from "@/components/analytics/AnalyticsScripts";
+import { AnalyticsTracker } from "@/components/analytics/AnalyticsTracker";
+import { ProductsProvider } from "@/lib/context/ProductsContext";
+import { getProducts } from "@/data/products";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://westoraglobal.com";
@@ -39,13 +44,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const organizationJsonLd = buildOrganizationJsonLd();
   const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
+  const products = await getProducts();
 
   return (
     <html
@@ -53,27 +59,25 @@ export default function RootLayout({
       className={`${cormorantGaramond.variable} ${inter.variable}`}
     >
       <body className="font-body antialiased">
-        <EnquiryModalProvider>
-          {children}
-          <EnquiryModal />
-        </EnquiryModalProvider>
-        <script
-          type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
-        <Analytics />
-        {/* Cookieless — no consent banner needed, keeps the GDPR story
-            clean (PRD §7). Renders nothing until NEXT_PUBLIC_PLAUSIBLE_
-            DOMAIN is set, so this is inert until that's configured. */}
-        {plausibleDomain && (
-          <Script
-            defer
-            data-domain={plausibleDomain}
-            src="https://plausible.io/js/script.js"
-            strategy="afterInteractive"
+        <ProductsProvider products={products}>
+        <CookieConsentProvider>
+          <EnquiryModalProvider>
+            {children}
+            <EnquiryModal />
+          </EnquiryModalProvider>
+          <script
+            type="application/ld+json"
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
           />
-        )}
+          <Analytics />
+          <AnalyticsScripts plausibleDomain={plausibleDomain} />
+          {/* Our own first-party visit/section-engagement tracker (see
+              lib/analytics/) — gated on cookie consent the same way. */}
+          <AnalyticsTracker />
+          <CookieConsentBanner />
+        </CookieConsentProvider>
+        </ProductsProvider>
       </body>
     </html>
   );

@@ -32,7 +32,10 @@ export function Hero() {
     // heading can never render underneath the fixed nav — items-end/pb-20
     // bottom-align the content within whatever space remains below that
     // floor, but on a short viewport the floor wins over the alignment.
-    <section className="relative flex min-h-[90svh] items-center overflow-hidden bg-brand-deep pb-20 pt-[140px] md:items-end">
+    <section
+      id="hero"
+      className="relative flex min-h-[90svh] items-center overflow-hidden bg-brand-deep pb-20 pt-[140px] md:items-end"
+    >
       <Image
         src={heroImage}
         alt=""

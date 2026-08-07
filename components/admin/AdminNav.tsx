@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils/cn";
 const LINKS = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/leads", label: "Leads" },
+  { href: "/admin/analytics", label: "Analytics" },
+  { href: "/admin/products", label: "Products" },
 ];
 
 export function AdminNav() {

@@ -69,7 +69,7 @@ export function BuyerVoices({ testimonials }: BuyerVoicesProps) {
 
   if (testimonials && testimonials.length > 0) {
     return (
-      <section className="bg-surface py-24 lg:py-40">
+      <section id="buyer-voices" className="bg-surface py-24 lg:py-40">
         <Container>
           <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
             {testimonials.map((testimonial) => (
@@ -87,7 +87,7 @@ export function BuyerVoices({ testimonials }: BuyerVoicesProps) {
   }
 
   return (
-    <section className="relative overflow-hidden bg-surface py-24 lg:py-40">
+    <section id="buyer-voices" className="relative overflow-hidden bg-surface py-24 lg:py-40">
       <Motif
         variant="a"
         className="pointer-events-none absolute -right-16 -top-16 -z-10 hidden w-[55%] max-w-[820px] opacity-[0.16] lg:block"

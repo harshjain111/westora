@@ -50,7 +50,10 @@ export function WhyChooseUs() {
   const childVariants = prefersReducedMotion ? undefined : itemVariants;
 
   return (
-    <section className="relative overflow-hidden border-t border-rule bg-surface pt-16 pb-24 lg:pt-20 lg:pb-40">
+    <section
+      id="why-choose-us"
+      className="relative overflow-hidden border-t border-rule bg-surface pt-16 pb-24 lg:pt-20 lg:pb-40"
+    >
       <Motif
         variant="full"
         fill
