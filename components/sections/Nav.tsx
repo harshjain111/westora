@@ -100,7 +100,12 @@ export function Nav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b bg-surface-raised/96 backdrop-blur-[20px] transition-shadow duration-200",
+        // A 20px backdrop-blur on a fixed header that's always mounted
+        // meant the browser recomputed it on every scroll frame across
+        // the whole site — a real mobile jank source. bg-surface-raised
+        // was already 96% opaque, so the blur was doing almost no visual
+        // work for its cost; dropped in favour of a near-solid fill.
+        "fixed inset-x-0 top-0 z-50 border-b bg-surface-raised/98 transition-shadow duration-200",
         isScrolled ? "border-b-rule shadow-[0_1px_0_0_rgba(0,0,0,0.02)]" : "border-b-transparent",
       )}
     >

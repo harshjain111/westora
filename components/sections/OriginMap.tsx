@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
@@ -52,6 +52,11 @@ export function OriginMap() {
   const { setStateFilter } = useCatalogueFilter();
   const [activeState, setActiveState] = useState<string>(STATES[0]!.name);
   const prefersReducedMotion = useReducedMotion();
+  // Six concurrent infinite animations running from page load regardless
+  // of scroll position was wasted compositor work for most of the visit
+  // — gated to only animate while the map is actually on screen.
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInView = useInView(mapRef, { margin: "-10% 0px" });
 
   const activeProducts = productsForState(activeState);
   const previewImage = activeProducts[0]?.images[0];
@@ -199,7 +204,7 @@ export function OriginMap() {
           </div>
 
           {/* RIGHT: interactive embossed map */}
-          <div className="relative mx-auto aspect-[1000/1076] w-full max-w-[480px] lg:max-w-none">
+          <div ref={mapRef} className="relative mx-auto aspect-[1000/1076] w-full max-w-[480px] lg:max-w-none">
             <Image
               src="/images/origin-map.png"
               alt="Relief map of Arunachal Pradesh, Assam, Meghalaya, Nagaland, Manipur and Mizoram — the six Northeast India states Westora sources from"
@@ -227,7 +232,7 @@ export function OriginMap() {
                     aria-pressed={isActive}
                     className="relative flex h-11 w-11 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-on-deep"
                   >
-                    {!prefersReducedMotion && !isActive && (
+                    {!prefersReducedMotion && !isActive && mapInView && (
                       <motion.span
                         className="absolute h-3 w-3 rounded-full bg-accent-on-deep"
                         animate={{ scale: [1, 2.4, 1], opacity: [0.45, 0, 0.45] }}

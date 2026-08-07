@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
-import { cormorantGaramond, inter, jetBrainsMono } from "./fonts";
+import { cormorantGaramond, inter } from "./fonts";
 import { buildOrganizationJsonLd } from "@/lib/seo/jsonld";
 import { EnquiryModal } from "@/components/form/EnquiryModal";
 import { EnquiryModalProvider } from "@/lib/context/EnquiryModalContext";
@@ -50,7 +50,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${cormorantGaramond.variable} ${inter.variable} ${jetBrainsMono.variable}`}
+      className={`${cormorantGaramond.variable} ${inter.variable}`}
     >
       <body className="font-body antialiased">
         <EnquiryModalProvider>

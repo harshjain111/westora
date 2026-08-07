@@ -17,10 +17,10 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "80px",
-          backgroundColor: "#0f3d2e",
+          backgroundColor: "#2b2015",
         }}
       >
-        <div style={{ display: "flex", fontSize: 28, letterSpacing: 4, color: "#c9a052" }}>
+        <div style={{ display: "flex", fontSize: 28, letterSpacing: 4, color: "#c9a25f" }}>
           NORTHEAST INDIA · EXPORTING TO UK &amp; USA
         </div>
         <div
@@ -28,13 +28,13 @@ export default function OpengraphImage() {
             display: "flex",
             marginTop: 24,
             fontSize: 76,
-            color: "#faf7f2",
+            color: "#f5f0e8",
             fontWeight: 400,
           }}
         >
           Premium origins. Global excellence.
         </div>
-        <div style={{ display: "flex", marginTop: 32, fontSize: 30, color: "#a8b6ad" }}>
+        <div style={{ display: "flex", marginTop: 32, fontSize: 30, color: "#aea79e" }}>
           Westora Global — 17 crops from Northeast India
         </div>
       </div>

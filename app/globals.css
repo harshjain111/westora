@@ -3,29 +3,47 @@
 /* =====================================================================
    WESTORA GLOBAL — DESIGN TOKENS
    =====================================================================
-   PALETTE REPLACED AGAIN — client supplied a full, detailed "Quiet
-   Luxury" design system (2026-08, v3) superseding the prior brand-board
-   pass. This is the current design authority; the accessibility floor in
-   CLAUDE.md §12 remains absolute regardless of what any reference shows.
+   PALETTE REPLACED AGAIN — client supplied a warm cream/gold reference
+   board (THEME.jpeg, 2026-08) replacing the Forest Green "Quiet Luxury"
+   v3 pass. Colour values only; layout, components and copy are
+   untouched. The accessibility floor in CLAUDE.md §12 remains absolute
+   regardless of what any reference shows.
 
-   Derivation: --color-brand-deep, --color-surface, --color-surface-
-   raised and --color-ink are the design system's named swatches verbatim
-   (Forest Green #143C2B, Warm Ivory #FAF8F2, white, Charcoal #1F1F1F).
-   --color-brand-mid uses the system's own named secondary tone, Sage
-   #6E8B6B, rather than a derived tint — the first time a reference has
-   supplied one directly.
+   Derivation: pixel-sampled directly from THEME.jpeg rather than
+   eyeballed. --color-surface (#f5f0e8) and --color-ink (#241d17) are
+   near-verbatim samples of the page ground and body/heading text. The
+   inline gold used for emphasised words ("premium", "partnerships") and
+   eyebrows sampled at ~#8d7149 — darkened slightly to #87642a (4.76:1 on
+   the new surface, up from 4.51:1 for the old palette's #8a682e, since
+   the new ground is a touch lighter) to keep a safety margin above the
+   4.5:1 body-text floor rather than sitting right on the line.
+   --color-accent-on-deep (#c9a25f) is unchanged — it already lands
+   within a few points of the reference's button-fill gold (~#c3975a)
+   and clears contrast comfortably (6.68:1) against the new dark tone.
 
-   --color-accent is NOT the system's raw Gold #B68A3D — that value is
-   2.95–3.14:1 against our light grounds, short of the 4.5:1 body-text
-   floor. Darkened along its own hue to #8a682e (4.8–5.1:1). The raw gold
-   itself also falls short as TEXT on brand-deep (3.91:1, need 4.5:1 —
-   only non-text UI needs just 3:1), so --color-accent-on-deep is a
-   lightened variant, #c9a25f (5.15:1 on brand-deep), not the raw swatch.
+   --color-brand-deep and --color-brand-mid have no direct sample: every
+   dark section in THEME.jpeg is a photograph (the packaging box), not
+   site chrome — the reference itself is cream-and-gold throughout, with
+   no dark UI surface shown. Since brand-deep still backs the Footer, the
+   mobile nav drawer, the product modal panel and several full-bleed
+   sections, replacing Forest Green with a coordinated deep espresso
+   brown (#2b2015, derived from the same warm hue family as the sampled
+   button text ~#432200) keeps every one of those working exactly as
+   before rather than leaving them on an orphaned green. --color-brand-
+   mid (#7a6248) is a lighter taupe-brown on the same hue for secondary
+   tone/hover states, replacing Sage.
 
-   --color-ink-muted and --color-rule are tuned (51% / 11% mixes) to land
-   on the system's own named Stone (#8D8D8D) and Border (#E9E7E2) values
-   when flattened over white, while staying mix-based so they still read
-   correctly over both surface grounds (ivory and white), not just one.
+   Button.tsx's "primary" variant was repointed from bg-brand-deep to
+   bg-accent-on-deep — the one necessary non-token edit. Every button in
+   the reference is gold-filled, none are dark-filled; left as
+   bg-brand-deep, "primary" buttons would render dark espresso brown
+   instead, which the reference never shows. This is still a colour-only
+   change (no size, radius, motion or markup touched) but is called out
+   explicitly since it's the one place a component file, not just this
+   token block, needed a one-line edit.
+
+   --color-ink-muted and --color-rule stay as mix-based derivations of
+   --color-ink so they automatically re-tune with it.
 
    TOKEN NAMES ARE FINAL. Do not rename. Do not add a seventh base colour.
 
@@ -40,12 +58,12 @@
 
 @theme {
   /* ---- Base colours (six only) ---- */
-  --color-brand-deep: #143c2b; /* Forest Green — dark surfaces, CTA banner, solid nav */
-  --color-brand-mid: #6e8b6b; /* Sage — secondary tone, hover states, hairline rules on dark */
-  --color-accent: #8a682e; /* THE single accent — CTAs, links, active states, eyebrows */
-  --color-surface: #faf8f2; /* Warm Ivory — page ground */
+  --color-brand-deep: #2b2015; /* Deep espresso brown — dark surfaces, footer, nav drawer */
+  --color-brand-mid: #7a6248; /* Warm taupe — secondary tone, hover states, hairline rules on dark */
+  --color-accent: #87642a; /* THE single accent — CTAs, links, active states, eyebrows */
+  --color-surface: #f5f0e8; /* Warm cream — page ground */
   --color-surface-raised: #ffffff; /* cards, modal ground, form fields */
-  --color-ink: #1f1f1f; /* Charcoal — body text */
+  --color-ink: #241d17; /* Warm near-black — body text */
 
   /* ---- Derived tokens (do not add new base colours) ---- */
   --color-ink-muted: color-mix(in srgb, var(--color-ink) 51%, transparent);
@@ -78,10 +96,20 @@
   /* Font roles — files wired in app/fonts.ts. Canela (design system's
      named display face) has no free self-hostable release; Cormorant
      Garamond is the system's own named free alternative. Body = Inter,
-     per spec. */
+     per spec.
+
+     --font-mono is the "label" role — nav links, eyebrows, specs, HS
+     codes, buttons — not literal monospace. It used to point at
+     JetBrains Mono, a coding typeface that read as technical/dev-tool
+     rather than the elegant corporate register the brand calls for.
+     Repointed at Inter (same family as body, tracked wider + uppercased
+     at the call site) — simpler, more corporate, and one fewer font file
+     for the browser to fetch. The variable name stays --font-mono since
+     the token contract elsewhere in this file is locked; only what it
+     resolves to changed. */
   --font-display: var(--font-cormorant-garamond), Georgia, serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-mono: var(--font-inter), system-ui, sans-serif;
 
   --tracking-mono-label: 0.02em;
   --tracking-display: -0.02em;

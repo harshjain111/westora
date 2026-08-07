@@ -12,12 +12,12 @@ export interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const variantClasses = {
-  // Design system §3: primary is a solid Forest Green fill, white text.
-  // Hover "becomes #0F3022" is approximated with brightness-90 on the
-  // existing brand-deep token rather than a seventh hardcoded colour —
-  // stays correct if the token ever changes.
+  // THEME.jpeg (2026-08 palette swap): every primary CTA in the reference
+  // is a solid gold fill with dark text, never a dark-filled button — so
+  // primary now points at accent-on-deep/ink rather than brand-deep/
+  // surface-raised. Still just a token remap, not a new style.
   primary:
-    "bg-brand-deep text-surface-raised hover:brightness-90 disabled:hover:brightness-100",
+    "bg-accent-on-deep text-ink hover:brightness-95 disabled:hover:brightness-100",
   // §3: transparent, gold border, forest-green text, fills ivory on hover.
   secondary:
     "border-[1.5px] border-accent text-brand-deep hover:bg-surface disabled:hover:bg-transparent",
