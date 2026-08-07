@@ -1,7 +1,4 @@
 import { z } from "zod";
-import { products } from "@/data/products";
-
-const productSlugs = products.map((product) => product.slug) as [string, ...string[]];
 
 /**
  * Single source of truth for enquiry validation — imported by both
@@ -12,6 +9,12 @@ const productSlugs = products.map((product) => product.slug) as [string, ...stri
  * Email accepts every domain, including free webmail — many legitimate
  * small importers use Gmail, and rejecting them would cost real leads
  * (PRD FR-12.2).
+ *
+ * `products` is validated as non-empty slugs here, not a strict enum —
+ * the slug list now lives in Supabase (data/products.ts) and can change
+ * without a redeploy, so this schema (loaded into the client bundle)
+ * can't hard-code it. The Server Action cross-checks each slug against
+ * the live product list before insert.
  */
 export const enquirySchema = z.object({
   fullName: z
@@ -34,7 +37,7 @@ export const enquirySchema = z.object({
     .regex(/^[0-9+()\-\s]+$/, "Use digits only, with an optional + and spaces."),
   country: z.string().trim().min(1, "Select a country."),
   products: z
-    .array(z.enum(productSlugs))
+    .array(z.string().trim().min(1))
     .min(1, "Select at least one product you're interested in."),
   volume: z.string().trim().max(80, "Keep this under 80 characters.").optional().or(z.literal("")),
   destinationPort: z

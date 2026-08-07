@@ -2,7 +2,8 @@
 
 import { useRef } from "react";
 import { cn } from "@/lib/utils/cn";
-import { categoryCounts, type Category } from "@/data/products";
+import type { Category } from "@/data/products";
+import { useProducts } from "@/lib/context/ProductsContext";
 
 export type CategoryKey = Category | "all";
 
@@ -21,6 +22,7 @@ export interface CategoryFilterProps {
 }
 
 export function CategoryFilter({ value, onChange }: CategoryFilterProps) {
+  const { categoryCounts } = useProducts();
   const refs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   const move = (fromIndex: number, delta: number) => {

@@ -56,7 +56,9 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
     .eq("role", "admin")
     .returns<Profile[]>();
 
-  const productNames = lead.products.map((slug) => getBySlug(slug)?.name ?? slug);
+  const productNames = await Promise.all(
+    lead.products.map(async (slug) => (await getBySlug(slug))?.name ?? slug),
+  );
 
   return (
     <div>

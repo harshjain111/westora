@@ -12,7 +12,7 @@ import { IconBadge, type IconName } from "@/components/ui/IconBadge";
 import { CategoryFilter, type CategoryKey } from "@/components/product/CategoryFilter";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductModal } from "@/components/product/ProductModal";
-import { getByCategory, getBySlug } from "@/data/products";
+import { useProducts } from "@/lib/context/ProductsContext";
 import { useCatalogueFilter } from "@/lib/context/CatalogueFilterContext";
 import { useEnquiryModal } from "@/lib/context/EnquiryModalContext";
 import { track } from "@/lib/analytics/track";
@@ -50,6 +50,7 @@ export function Catalogue({ initialCategory = "all" }: CatalogueProps) {
   const prefersReducedMotion = useReducedMotion();
   const { stateFilter, setStateFilter } = useCatalogueFilter();
   const { open: openEnquiry } = useEnquiryModal();
+  const { getByCategory, getBySlug } = useProducts();
 
   const items = useMemo(() => {
     const byCategory = getByCategory(category);

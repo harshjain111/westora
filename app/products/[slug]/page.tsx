@@ -12,9 +12,10 @@ import { RelatedProducts } from "@/components/product/RelatedProducts";
 import { EnquiryFormLazy as EnquiryForm } from "@/components/form/EnquiryFormLazy";
 import { CatalogueFilterProvider } from "@/lib/context/CatalogueFilterContext";
 import { buildBreadcrumbJsonLd, buildProductJsonLd } from "@/lib/seo/jsonld";
-import { getBySlug, products } from "@/data/products";
+import { getBySlug, getProducts } from "@/data/products";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const products = await getProducts();
   return products.map((product) => ({ slug: product.slug }));
 }
 
@@ -45,7 +46,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const product = getBySlug(slug);
+  const product = await getBySlug(slug);
   if (!product) return {};
 
   const targetQuery = TARGET_QUERY[slug];
@@ -66,7 +67,7 @@ export async function generateMetadata({
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = getBySlug(slug);
+  const product = await getBySlug(slug);
 
   if (!product) {
     notFound();

@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Lead, LeadStatus } from "@/types";
-import { getBySlug } from "@/data/products";
+import { getProducts } from "@/data/products";
 
 export interface DashboardStats {
   leadsToday: number;
@@ -54,8 +54,10 @@ export async function getDashboardStats(supabase: SupabaseClient): Promise<Dashb
       productCounts.set(slug, (productCounts.get(slug) ?? 0) + 1);
     }
   }
+  const allProducts = await getProducts();
+  const nameBySlug = new Map(allProducts.map((product) => [product.slug, product.name]));
   const topProducts = [...productCounts.entries()]
-    .map(([slug, count]) => ({ slug, name: getBySlug(slug)?.name ?? slug, count }))
+    .map(([slug, count]) => ({ slug, name: nameBySlug.get(slug) ?? slug, count }))
     .sort((a, b) => b.count - a.count)
     .slice(0, 5);
 

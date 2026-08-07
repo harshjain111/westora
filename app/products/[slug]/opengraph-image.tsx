@@ -1,10 +1,11 @@
 import { ImageResponse } from "next/og";
-import { getBySlug, products } from "@/data/products";
+import { getBySlug, getProducts } from "@/data/products";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const products = await getProducts();
   return products.map((product) => ({ slug: product.slug }));
 }
 
@@ -18,7 +19,7 @@ export default async function ProductOpengraphImage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getBySlug(slug);
+  const product = await getBySlug(slug);
 
   return new ImageResponse(
     (

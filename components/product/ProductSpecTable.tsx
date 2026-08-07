@@ -1,19 +1,5 @@
 import { cn } from "@/lib/utils/cn";
-import { products, type ProductSpec } from "@/data/products";
-
-// Build-time visibility into every spec still pending client confirmation —
-// runs once at module evaluation (server/build), not per render.
-const unverifiedSpecs = products.flatMap((product) =>
-  product.specs
-    .filter((spec) => spec.unverified)
-    .map((spec) => `${product.slug} → ${spec.label}`),
-);
-if (unverifiedSpecs.length > 0) {
-  console.warn(
-    `[ProductSpecTable] ${unverifiedSpecs.length} unverified spec(s) will not render in production:\n` +
-      unverifiedSpecs.map((entry) => `  - ${entry}`).join("\n"),
-  );
-}
+import type { ProductSpec } from "@/data/products";
 
 export interface ProductSpecTableProps {
   specs: ProductSpec[];

@@ -7,7 +7,8 @@ import { Chip } from "@/components/ui/Chip";
 import { EnquiryFormLazy as EnquiryForm } from "@/components/form/EnquiryFormLazy";
 import { ProductSpecTable } from "@/components/product/ProductSpecTable";
 import { ProvenanceLine } from "@/components/product/ProvenanceLine";
-import { getByCategory, getBySlug, type Product } from "@/data/products";
+import type { Product } from "@/data/products";
+import { useProducts } from "@/lib/context/ProductsContext";
 import type { CategoryKey } from "@/components/product/CategoryFilter";
 
 export interface ProductModalProps {
@@ -21,6 +22,7 @@ const EXIT_DURATION_MS = 250;
 
 export function ProductModal({ slug, category, onClose, onNavigate }: ProductModalProps) {
   const prefersReducedMotion = useReducedMotion();
+  const { getBySlug, getByCategory } = useProducts();
   const dialogRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<Element | null>(null);
 

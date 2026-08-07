@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
-import { products } from "@/data/products";
+import { getProducts } from "@/data/products";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://westoraglobal.com";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const products = await getProducts();
   const productEntries: MetadataRoute.Sitemap = products.map((product) => ({
     url: `${siteUrl}/products/${product.slug}`,
     lastModified: new Date(),

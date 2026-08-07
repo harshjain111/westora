@@ -14,7 +14,7 @@ import { inputClassName } from "@/components/form/inputStyles";
 import { enquirySchema, type EnquiryFormValues } from "@/lib/schemas/enquiry";
 import { submitEnquiry } from "@/lib/actions/enquiry";
 import { track } from "@/lib/analytics/track";
-import { getBySlug } from "@/data/products";
+import { useProducts } from "@/lib/context/ProductsContext";
 import { company } from "@/data/company";
 import { cn } from "@/lib/utils/cn";
 
@@ -51,6 +51,7 @@ export function EnquiryForm({ variant, lockedProduct, sourceSection, className }
     },
   });
 
+  const { getBySlug } = useProducts();
   const selectedProducts = watch("products");
   const lockedProductData = lockedProduct ? getBySlug(lockedProduct) : undefined;
 

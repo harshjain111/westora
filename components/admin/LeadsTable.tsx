@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { StatusSelect } from "@/components/admin/StatusSelect";
-import { getBySlug } from "@/data/products";
+import { getProducts } from "@/data/products";
 import type { Lead, ProfileRole } from "@/types";
 
 export interface LeadsTableProps {
@@ -12,11 +12,12 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
 }
 
-function productNames(slugs: string[]) {
-  return slugs.map((slug) => getBySlug(slug)?.name ?? slug).join(", ");
-}
+export async function LeadsTable({ leads, role }: LeadsTableProps) {
+  const allProducts = await getProducts();
+  const nameBySlug = new Map(allProducts.map((product) => [product.slug, product.name]));
+  const productNames = (slugs: string[]) =>
+    slugs.map((slug) => nameBySlug.get(slug) ?? slug).join(", ");
 
-export function LeadsTable({ leads, role }: LeadsTableProps) {
   if (leads.length === 0) {
     return (
       <p className="mt-8 border border-rule bg-surface-raised p-6 text-body text-ink-muted">

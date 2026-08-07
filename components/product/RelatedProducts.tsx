@@ -6,8 +6,9 @@ export interface RelatedProductsProps {
   current: Product;
 }
 
-export function RelatedProducts({ current }: RelatedProductsProps) {
-  const related = getByCategory(current.category).filter((product) => product.slug !== current.slug);
+export async function RelatedProducts({ current }: RelatedProductsProps) {
+  const byCategory = await getByCategory(current.category);
+  const related = byCategory.filter((product) => product.slug !== current.slug);
 
   if (related.length === 0) return null;
 

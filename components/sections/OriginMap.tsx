@@ -7,8 +7,8 @@ import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
 import { useCatalogueFilter } from "@/lib/context/CatalogueFilterContext";
+import { useProducts } from "@/lib/context/ProductsContext";
 import { track } from "@/lib/analytics/track";
-import { products } from "@/data/products";
 import { cn } from "@/lib/utils/cn";
 
 interface StateMarker {
@@ -30,10 +30,6 @@ const STATES: StateMarker[] = [
   { name: "Mizoram", x: 40.7, y: 80.9 },
 ];
 
-function productsForState(state: string) {
-  return products.filter((product) => product.origin === state);
-}
-
 const leafPath = (
   <>
     <path d="M6 19c8 0 12-4 12-12V5h-2C8 5 6 11 6 15v4z" />
@@ -50,8 +46,13 @@ function tooltipPositionClasses(state: StateMarker) {
 
 export function OriginMap() {
   const { setStateFilter } = useCatalogueFilter();
+  const { products } = useProducts();
   const [activeState, setActiveState] = useState<string>(STATES[0]!.name);
   const prefersReducedMotion = useReducedMotion();
+
+  function productsForState(state: string) {
+    return products.filter((product) => product.origin === state);
+  }
   // Six concurrent infinite animations running from page load regardless
   // of scroll position was wasted compositor work for most of the visit
   // — gated to only animate while the map is actually on screen.

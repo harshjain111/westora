@@ -2,12 +2,13 @@
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useState, useTransition } from "react";
-import { products } from "@/data/products";
+import { useProducts } from "@/lib/context/ProductsContext";
 import { inputClassName } from "@/components/form/inputStyles";
 
 const STATUSES = ["new", "contacted", "quoted", "sampled", "won", "lost"];
 
 export function LeadsFilters() {
+  const { products } = useProducts();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

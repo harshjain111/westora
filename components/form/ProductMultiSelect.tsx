@@ -1,4 +1,4 @@
-import { products } from "@/data/products";
+import { useProducts } from "@/lib/context/ProductsContext";
 import { inputClassName } from "@/components/form/inputStyles";
 import { cn } from "@/lib/utils/cn";
 
@@ -9,6 +9,7 @@ export interface ProductMultiSelectProps {
 }
 
 export function ProductMultiSelect({ value, onChange, id }: ProductMultiSelectProps) {
+  const { products } = useProducts();
   const selected = products.filter((product) => value.includes(product.slug));
 
   const remove = (slug: string) => onChange(value.filter((s) => s !== slug));

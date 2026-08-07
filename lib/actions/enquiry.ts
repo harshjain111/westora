@@ -9,7 +9,7 @@ import { isRateLimited } from "@/lib/utils/rateLimit";
 import { verifyTurnstile } from "@/lib/utils/turnstile";
 import { NotificationEmail } from "@/emails/NotificationEmail";
 import { AutoReplyEmail } from "@/emails/AutoReplyEmail";
-import { getBySlug } from "@/data/products";
+import { getBySlug, getProducts } from "@/data/products";
 
 export interface SubmitEnquiryInput extends EnquiryFormValues {
   sourceSection: "modal" | "main_form" | "product_page";
@@ -49,6 +49,16 @@ export async function submitEnquiry(input: SubmitEnquiryInput): Promise<SubmitEn
     return { success: false, error: "Please check the highlighted fields and try again." };
   }
   const values = parsed.data;
+
+  // 1b. Cross-check product slugs against the live list (Supabase-backed —
+  // see the note in lib/schemas/enquiry.ts) since the schema itself can no
+  // longer enforce this as a compile-time enum.
+  const liveProducts = await getProducts();
+  const liveSlugs = new Set(liveProducts.map((product) => product.slug));
+  values.products = values.products.filter((slug) => liveSlugs.has(slug));
+  if (values.products.length === 0) {
+    return { success: false, error: "Please reselect the products you're interested in and try again." };
+  }
 
   // 2. Honeypot — silently reject, no error surfaced (don't tip off bots).
   if (values.companyWebsite && values.companyWebsite.trim() !== "") {
@@ -164,7 +174,9 @@ async function sendEnquiryEmails(params: {
   }
 
   const resend = new Resend(apiKey);
-  const productNames = params.products.map((slug) => getBySlug(slug)?.name ?? slug);
+  const productNames = await Promise.all(
+    params.products.map(async (slug) => (await getBySlug(slug))?.name ?? slug),
+  );
 
   try {
     await resend.emails.send({

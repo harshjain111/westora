@@ -1,10 +1,10 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
-import { categoryCounts } from "@/data/products";
+import { getCategoryCounts, type Category } from "@/data/products";
 import { company, filterEmpty } from "@/data/company";
 
-const CATEGORY_LINKS: { key: keyof typeof categoryCounts; label: string }[] = [
+const CATEGORY_LINKS: { key: Category; label: string }[] = [
   { key: "spices", label: "Spices" },
   { key: "chillies", label: "Chillies" },
   { key: "tea", label: "Tea" },
@@ -39,7 +39,8 @@ function waLink(number: string) {
   return `https://wa.me/${number.replace(/[^0-9]/g, "")}`;
 }
 
-export function Footer() {
+export async function Footer() {
+  const categoryCounts = await getCategoryCounts();
   const registrations = filterEmpty(company.registrations);
   const registrationEntries = Object.entries(registrations) as [
     keyof typeof company.registrations,

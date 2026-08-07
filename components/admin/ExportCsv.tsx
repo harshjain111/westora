@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import { getBySlug } from "@/data/products";
+import { useProducts } from "@/lib/context/ProductsContext";
 import type { Lead } from "@/types";
 
 export interface ExportCsvProps {
@@ -25,7 +25,7 @@ const COLUMNS: { key: keyof Lead; label: string }[] = [
   { key: "internal_notes", label: "Internal notes" },
 ];
 
-function csvCell(value: unknown): string {
+function csvCell(value: unknown, getBySlug: (slug: string) => { name: string } | undefined): string {
   if (value === null || value === undefined) return "";
   const text = Array.isArray(value)
     ? value.map((slug) => getBySlug(slug)?.name ?? slug).join("; ")
@@ -36,9 +36,13 @@ function csvCell(value: unknown): string {
 }
 
 export function ExportCsv({ leads }: ExportCsvProps) {
+  const { getBySlug } = useProducts();
+
   const onExport = () => {
-    const header = COLUMNS.map((column) => csvCell(column.label)).join(",");
-    const rows = leads.map((lead) => COLUMNS.map((column) => csvCell(lead[column.key])).join(","));
+    const header = COLUMNS.map((column) => csvCell(column.label, getBySlug)).join(",");
+    const rows = leads.map((lead) =>
+      COLUMNS.map((column) => csvCell(lead[column.key], getBySlug)).join(","),
+    );
     const csv = [header, ...rows].join("\r\n");
 
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
