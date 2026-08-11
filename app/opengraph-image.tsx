@@ -21,7 +21,7 @@ export default function OpengraphImage() {
         }}
       >
         <div style={{ display: "flex", fontSize: 28, letterSpacing: 4, color: "#c9a25f" }}>
-          NORTHEAST INDIA · EXPORTING TO UK &amp; USA
+          NORTHEAST INDIA · EXPORTING TO 9 GLOBAL MARKETS
         </div>
         <div
           style={{

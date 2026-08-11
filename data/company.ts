@@ -61,6 +61,8 @@ export interface Company {
   contact: Contact;
   tradeTerms: TradeTerms;
   stats: Stats;
+  /** Primary export markets, client-confirmed (feedback round, 2026-08). */
+  markets: string[];
   /** Per-lot test panel (Quality §5 Block B). Empty until the client
    * supplies real parameters/limits — an empty array renders nothing. */
   testPanel: TestPanelRow[];
@@ -108,6 +110,7 @@ export const company: Company = {
     growerPartnerships: "", // CLIENT TO CONFIRM
     shipmentsDelivered: "", // CLIENT TO CONFIRM
   },
+  markets: ["UAE", "Oman", "Qatar", "Saudi Arabia", "China", "UK", "USA", "Netherlands", "Vietnam"],
   testPanel: [], // CLIENT TO CONFIRM — real parameters/limits per lot
   documents: [], // CLIENT TO CONFIRM — actual document set issued
 };

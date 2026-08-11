@@ -9,6 +9,7 @@ import { ProductSpecTable } from "@/components/product/ProductSpecTable";
 import { ProvenanceLine } from "@/components/product/ProvenanceLine";
 import type { Product } from "@/data/products";
 import { useProducts } from "@/lib/context/ProductsContext";
+import { getDisplaySpecs } from "@/lib/utils/productSpecs";
 import type { CategoryKey } from "@/components/product/CategoryFilter";
 
 export interface ProductModalProps {
@@ -245,7 +246,7 @@ export function ProductModal({ slug, category, onClose, onNavigate }: ProductMod
           <p className="mt-4 text-body text-ink-muted">{displayProduct.description}</p>
 
           <div className="mt-8">
-            <ProductSpecTable specs={displayProduct.specs} />
+            <ProductSpecTable specs={getDisplaySpecs(displayProduct)} />
           </div>
 
           {displayProduct.forms.length > 0 && (

@@ -58,6 +58,8 @@ const EMPTY_VALUES: ProductFormValues = {
   images: [],
   featured: false,
   customFields: [],
+  hsnCode: "",
+  packingSizes: [],
 };
 
 export function ProductForm({ mode, product }: ProductFormProps) {
@@ -93,6 +95,8 @@ export function ProductForm({ mode, product }: ProductFormProps) {
           images: product.images,
           featured: product.featured ?? false,
           customFields: product.customFields,
+          hsnCode: product.hsnCode ?? "",
+          packingSizes: product.packingSizes,
         }
       : EMPTY_VALUES,
   });
@@ -195,6 +199,38 @@ export function ProductForm({ mode, product }: ProductFormProps) {
             </Field>
           </div>
         )}
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <Field
+          label="HSN code"
+          htmlFor="hsnCode"
+          error={errors.hsnCode?.message}
+          hint="Customs classification — confirm the exact code with your customs broker before publishing."
+        >
+          <input
+            id="hsnCode"
+            placeholder="e.g. 0910 30 20"
+            className={`${inputClassName} font-mono`}
+            {...register("hsnCode")}
+          />
+        </Field>
+
+        <Controller
+          control={control}
+          name="packingSizes"
+          render={({ field }) => (
+            <Field label="Packing sizes" htmlFor="packingSizes" hint="One per line — e.g. 25kg bag.">
+              <textarea
+                id="packingSizes"
+                rows={2}
+                className={inputClassName}
+                value={field.value.join("\n")}
+                onChange={(event) => field.onChange(linesToArray(event.target.value))}
+              />
+            </Field>
+          )}
+        />
       </div>
 
       <Field

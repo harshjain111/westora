@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
-import { PremiumBadge } from "@/components/ui/PremiumBadge";
 import { IconBadge, type IconName } from "@/components/ui/IconBadge";
 import { CategoryFilter, type CategoryKey } from "@/components/product/CategoryFilter";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -121,8 +120,6 @@ export function Catalogue({ initialCategory = "all" }: CatalogueProps) {
               Northeast India and exported worldwide.
             </p>
           </div>
-
-          <PremiumBadge className="absolute right-[24%] top-1/2 hidden -translate-y-1/2 lg:block" />
         </Container>
       </div>
 
@@ -200,6 +197,19 @@ export function Catalogue({ initialCategory = "all" }: CatalogueProps) {
             height={828}
             className="h-auto w-full"
           />
+          {/* Same image overlay scrim technique as the banner above — softens
+              the photo's top/bottom edges into bg-surface instead of a hard
+              rectangular crop. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-10"
+            style={{ background: "linear-gradient(to bottom, var(--color-surface), transparent)" }}
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-10"
+            style={{ background: "linear-gradient(to top, var(--color-surface), transparent)" }}
+          />
 
           <div className="absolute inset-0 flex items-center">
             <div className="w-[42%] pl-12 pr-6">
@@ -229,7 +239,7 @@ export function Catalogue({ initialCategory = "all" }: CatalogueProps) {
                 <div key={point.title} className="flex flex-col items-center gap-2 px-2 text-center first:pl-0">
                   <IconBadge icon={point.icon} filled size="sm" />
                   <p className="font-display text-small font-medium text-ink">{point.title}</p>
-                  <p className="text-[0.8125rem] leading-snug text-ink-muted">{point.body}</p>
+                  <p className="text-small leading-snug text-ink-muted">{point.body}</p>
                 </div>
               ))}
             </div>

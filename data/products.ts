@@ -50,6 +50,8 @@ export interface Product {
   images: ProductImage[];
   featured?: boolean;
   customFields: CustomField[];
+  hsnCode?: string;
+  packingSizes: string[];
 }
 
 interface ProductRow {
@@ -70,6 +72,8 @@ interface ProductRow {
   images: ProductImage[];
   featured: boolean;
   custom_fields: CustomField[];
+  hsn_code: string | null;
+  packing_sizes: string[];
 }
 
 function rowToProduct(row: ProductRow): Product {
@@ -91,6 +95,8 @@ function rowToProduct(row: ProductRow): Product {
     images: row.images ?? [],
     featured: row.featured,
     customFields: row.custom_fields ?? [],
+    hsnCode: row.hsn_code ?? undefined,
+    packingSizes: row.packing_sizes ?? [],
   };
 }
 
@@ -110,7 +116,7 @@ export async function getProducts(): Promise<Product[]> {
   const { data, error } = await getClient()
     .from("products")
     .select(
-      "slug, name, category, origin, origin_district, botanical, has_gi, gi_number, hero_line, description, specs, forms, packaging, provenance, images, featured, custom_fields",
+      "slug, name, category, origin, origin_district, botanical, has_gi, gi_number, hero_line, description, specs, forms, packaging, provenance, images, featured, custom_fields, hsn_code, packing_sizes",
     )
     .order("sort_order", { ascending: true })
     .returns<ProductRow[]>();

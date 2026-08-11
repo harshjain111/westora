@@ -44,6 +44,8 @@ export const productSchema = z.object({
   images: z.array(productImageSchema).max(10),
   featured: z.boolean(),
   customFields: z.array(productCustomFieldSchema).max(20),
+  hsnCode: z.string().trim().max(20).optional().or(z.literal("")),
+  packingSizes: z.array(z.string().trim().min(1)).max(20),
 });
 
 export type ProductFormValues = z.infer<typeof productSchema>;

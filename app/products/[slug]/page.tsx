@@ -13,6 +13,7 @@ import { EnquiryFormLazy as EnquiryForm } from "@/components/form/EnquiryFormLaz
 import { CatalogueFilterProvider } from "@/lib/context/CatalogueFilterContext";
 import { buildBreadcrumbJsonLd, buildProductJsonLd } from "@/lib/seo/jsonld";
 import { getBySlug, getProducts } from "@/data/products";
+import { getDisplaySpecs } from "@/lib/utils/productSpecs";
 
 export async function generateStaticParams() {
   const products = await getProducts();
@@ -124,7 +125,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <p className="mt-4 text-body text-ink-muted">{product.description}</p>
 
               <div className="mt-8">
-                <ProductSpecTable specs={product.specs} />
+                <ProductSpecTable specs={getDisplaySpecs(product)} />
               </div>
 
               {product.forms.length > 0 && (

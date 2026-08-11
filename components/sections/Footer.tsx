@@ -59,7 +59,8 @@ export async function Footer() {
               Premium origins. Global excellence.
             </p>
             <p className="mt-2 text-small text-on-deep-muted">
-              Exporting high-value crops from Northeast India to the UK and US.
+              Exporting high-value crops from Northeast India to markets across the Middle East,
+              Europe, Asia and North America.
             </p>
           </div>
 

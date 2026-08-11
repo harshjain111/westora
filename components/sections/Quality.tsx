@@ -99,8 +99,8 @@ export function Quality() {
           <em className="text-accent-on-deep">who go further.</em>
         </Heading>
         <p className="mt-4 max-w-[42ch] text-small text-on-deep-muted">
-          Every batch we source is quality-checked, lot-tested, and handled
-          with the compliance global markets require.
+          Every batch we source is quality-checked, lab tested to match your
+          needs, and handled with the compliance global markets require.
         </p>
 
         <div className="mt-10">
@@ -162,8 +162,9 @@ export function Quality() {
                 <em className="text-accent-on-deep">who go further.</em>
               </Heading>
               <p className="mt-4 max-w-[42ch] text-small text-on-deep-muted">
-                Every batch we source is quality-checked, lot-tested, and handled
-                with the compliance global markets require.
+                Every batch we source is quality-checked, lab tested to match
+                your needs, and handled with the compliance global markets
+                require.
               </p>
             </div>
           </Container>

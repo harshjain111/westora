@@ -7,8 +7,8 @@ import { cn } from "@/lib/utils/cn";
 const CELLS = [
   { value: "17", label: "Origin-locked crops" },
   { value: "6", label: "Northeast states sourced" },
-  { value: "100%", label: "Lot-tested, COA with every shipment" },
-  { value: "UK · US", label: "Primary export markets" },
+  { value: "100%", label: "Lab tested to match your needs, COA with every shipment" },
+  { value: String(company.markets.length), label: "Primary export markets" },
 ] as const;
 
 const REGISTRATION_LABELS: Record<keyof typeof company.registrations, string> = {
@@ -48,12 +48,19 @@ export function CredentialStrip() {
           ))}
         </div>
 
-        {entries.length > 0 && (
+        {(company.markets.length > 0 || entries.length > 0) && (
           <>
             <Rule className="mt-10 border-t-on-deep-muted" />
-            <p className="mt-6 font-mono text-[11px] tracking-mono-label uppercase text-on-deep-muted">
-              {entries.map(([key, val]) => `${REGISTRATION_LABELS[key]} ${val}`).join(" · ")}
-            </p>
+            {company.markets.length > 0 && (
+              <p className="mt-6 font-mono text-small tracking-mono-label uppercase text-on-deep-muted">
+                {company.markets.join(" · ")}
+              </p>
+            )}
+            {entries.length > 0 && (
+              <p className="mt-6 font-mono text-[11px] tracking-mono-label uppercase text-on-deep-muted">
+                {entries.map(([key, val]) => `${REGISTRATION_LABELS[key]} ${val}`).join(" · ")}
+              </p>
+            )}
           </>
         )}
       </Container>

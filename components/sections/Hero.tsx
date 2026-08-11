@@ -56,7 +56,7 @@ export function Hero() {
         >
           <motion.div variants={childVariants}>
             <Eyebrow as="p" tone="on-deep" className="text-on-deep">
-              Northeast India · Exporting to UK & USA
+              Northeast India · Exporting to 9 global markets
             </Eyebrow>
           </motion.div>
 
@@ -65,9 +65,9 @@ export function Hero() {
           </motion.h1>
 
           <motion.p variants={childVariants} className="mt-6 max-w-[52ch] text-lead text-on-deep-muted">
-            We export 17 high-value crops from Northeast India to buyers in the
-            United Kingdom and United States — traceable to district, tested to
-            spec, delivered on schedule.
+            We export 17 high-value crops from Northeast India to buyers
+            across the Middle East, Europe, Asia and North America —
+            traceable to district, tested to spec, delivered on schedule.
           </motion.p>
 
           <motion.div
@@ -94,13 +94,6 @@ export function Hero() {
               Request a quote
             </Button>
           </motion.div>
-
-          <motion.p
-            variants={childVariants}
-            className="mt-8 font-mono text-small tracking-mono-label text-on-deep-muted"
-          >
-            FOB Kolkata · CIF · DDP · Samples in 7 days · MOQ from 500 kg
-          </motion.p>
         </motion.div>
       </Container>
     </section>

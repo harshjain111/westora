@@ -43,6 +43,8 @@ function toRow(values: ProductFormValues) {
     images: values.images,
     featured: values.featured,
     custom_fields: values.customFields,
+    hsn_code: values.hsnCode || null,
+    packing_sizes: values.packingSizes,
   };
 }
 

@@ -20,7 +20,7 @@ const POINTS: { icon: IconName; title: string; body: string }[] = [
   {
     icon: "shield",
     title: "Tested before it ships",
-    body: "Lot-tested with a certificate of analysis on every shipment, not on request.",
+    body: "Lab tested to match your needs, with a certificate of analysis on every shipment, not on request.",
   },
   {
     icon: "leaf",
@@ -91,7 +91,7 @@ export function WhyChooseUs() {
               variants={childVariants}
               className="flex flex-col items-center text-center"
             >
-              <IconBadge icon={point.icon} />
+              <IconBadge icon={point.icon} filled />
               <p className="mt-4 font-display text-lead text-ink">{point.title}</p>
               <p className="mt-2 text-small text-ink-muted">{point.body}</p>
             </motion.div>
