@@ -1,75 +1,109 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
-import { IconBadge, type IconName } from "@/components/ui/IconBadge";
+import { Reveal } from "@/components/ui/Reveal";
+import { FeatureSteps, type FeatureStep } from "@/components/ui/feature-steps";
+import sourcedImage from "@/public/images/how-we-work-sourced.jpg";
+import processedImage from "@/public/images/how-we-work-processed.jpg";
+import testedImage from "@/public/images/how-we-work-tested.jpg";
+import shippedImage from "@/public/images/how-we-work-shipped.jpg";
 
-// Step titles are client-confirmed (feedback round, 2026-08) — replaces
-// the earlier four-step version with the full eight-step process.
-const STEPS: { number: string; title: string; icon: IconName }[] = [
-  { number: "01", title: "Sourced", icon: "leaf" },
-  { number: "02", title: "Processed", icon: "warehouse" },
-  { number: "03", title: "Verified", icon: "shield" },
-  { number: "04", title: "Packaged and labelled", icon: "package" },
-  { number: "05", title: "Lab tested", icon: "quality" },
-  { number: "06", title: "Documented", icon: "document" },
-  { number: "07", title: "Shipped to you", icon: "truck" },
-  { number: "08", title: "Prepare for next order", icon: "handshake" },
+/**
+ * Source to port, presented with the FeatureSteps stepper.
+ *
+ * Media is the site's own process photography and the three looping clips
+ * already in /public/video — not stock. Four of the eight stages have
+ * real footage or photography; the rest reuse the nearest stage's still
+ * rather than inventing imagery for a step we have none for
+ * (CLAUDE.md §11, empty-means-omit, applied to pictures).
+ */
+
+const SOURCED = {
+  image: sourcedImage,
+  video: "/video/work-sourced.mp4",
+  imageAlt: "A picker harvesting tea leaves by hand on a Northeast India estate",
+};
+const PROCESSED = {
+  image: processedImage,
+  video: "/video/work-processed.mp4",
+  imageAlt: "Gloved hands sorting green cardamom pods on a steel drying screen",
+};
+const TESTED = {
+  image: testedImage,
+  video: "/video/work-tested.mp4",
+  imageAlt: "A technician examining black peppercorns with tweezers in a laboratory",
+};
+const SHIPPED = {
+  image: shippedImage,
+  imageAlt: "Export cartons prepared for shipment",
+};
+
+const STEPS: FeatureStep[] = [
+  {
+    step: "Step 01",
+    title: "Sourced",
+    content:
+      "Direct from grower partnerships across all seven Northeast states, traceable to district.",
+    ...SOURCED,
+  },
+  {
+    step: "Step 02",
+    title: "Processed",
+    content: "Cleaned, graded and dried to the moisture spec your market requires.",
+    ...PROCESSED,
+  },
+  {
+    step: "Step 03",
+    title: "Verified",
+    content: "Every lot checked against the agreed specification before it moves.",
+    ...TESTED,
+  },
+  {
+    step: "Step 04",
+    title: "Packaged and labelled",
+    content: "Packed to your format and labelled to your destination market's rules.",
+    ...PROCESSED,
+  },
+  {
+    step: "Step 05",
+    title: "Lab tested",
+    content:
+      "Lab tested to match your needs, with a certificate of analysis on every shipment.",
+    ...TESTED,
+  },
+  {
+    step: "Step 06",
+    title: "Documented",
+    content: "Full export documentation prepared and issued with the consignment.",
+    ...SHIPPED,
+  },
+  {
+    step: "Step 07",
+    title: "Shipped to you",
+    content: "Consolidated at Guwahati, loaded at Kolkata, delivered to your port.",
+    ...SHIPPED,
+  },
+  {
+    step: "Step 08",
+    title: "Prepare for next order",
+    content: "We hold your spec on file so the next lot matches the last one.",
+    ...SOURCED,
+  },
 ];
 
-const containerVariants: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.18 } },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
-};
-
 export function HowWeWork() {
-  const prefersReducedMotion = useReducedMotion();
-  const variants = prefersReducedMotion ? undefined : containerVariants;
-  const childVariants = prefersReducedMotion ? undefined : itemVariants;
-
   return (
-    <section id="how-we-work" className="bg-surface py-24 lg:py-40">
+    <section id="how-we-work" className="bg-surface py-24 lg:py-32">
       <Container>
-        <div className="max-w-[640px]">
-          <Eyebrow as="p">How we work</Eyebrow>
-          <Heading level={2} className="mt-4">
-            Source to port, in eight steps
-          </Heading>
-        </div>
+        <Reveal className="max-w-[640px]">
+          <Heading level={2}>Source to port, in eight steps</Heading>
+          <div className="mt-4 h-[3px] w-16 bg-accent" aria-hidden="true" />
+        </Reveal>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-10% 0px" }}
-          variants={variants}
-          className="relative mt-14 grid grid-cols-2 gap-x-6 gap-y-12 sm:grid-cols-4 lg:gap-x-8"
-        >
-          {STEPS.map((step, index) => (
-            <motion.div key={step.number} className="relative" variants={childVariants}>
-              {index > 0 && index % 4 !== 0 && (
-                <span
-                  aria-hidden="true"
-                  className="absolute -left-5 top-4 hidden font-display text-lead text-ink-muted lg:block"
-                >
-                  ›
-                </span>
-              )}
-
-              <div className="flex items-center gap-3">
-                <p className="font-mono text-small text-accent">{step.number}</p>
-                <IconBadge icon={step.icon} size="sm" />
-              </div>
-              <p className="mt-4 font-display text-lead text-ink">{step.title}</p>
-            </motion.div>
-          ))}
-        </motion.div>
+        {/* 5s a step: eight stages at the component's 3s default is a
+            24s loop, and each step's copy needs longer than 3s to read. */}
+        <FeatureSteps features={STEPS} autoPlayInterval={5000} className="mt-14" />
       </Container>
     </section>
   );

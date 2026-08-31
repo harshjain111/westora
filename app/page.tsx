@@ -23,7 +23,8 @@ export default function Home() {
       <Nav />
       <Hero />
       <CredentialStrip />
-      <Catalogue />
+      {/* Preview only — the full set lives on /catalogue. */}
+      <Catalogue limit={12} />
       <HowWeWork />
       <Quality />
       <About />

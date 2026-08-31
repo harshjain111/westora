@@ -13,6 +13,7 @@
  */
 import { createClient } from "@supabase/supabase-js";
 import { requireEnv } from "@/lib/utils/env";
+import { FALLBACK_PRODUCTS } from "@/data/products.fallback";
 
 export type Category = "spices" | "chillies" | "tea" | "rice" | "other";
 
@@ -122,8 +123,16 @@ export async function getProducts(): Promise<Product[]> {
     .returns<ProductRow[]>();
 
   if (error) {
-    console.error("[products] fetch failed:", error.message);
-    return [];
+    // Supabase is unreachable — NOT the same as "there are no products".
+    // Returning [] here shipped a silently empty catalogue on a page whose
+    // whole job is credibility, so fall back to the build-time snapshot of
+    // the seed migration instead. A legitimate empty result (someone
+    // deleted every row via /admin/products) still returns empty below:
+    // that is a real answer and must not be overridden.
+    console.error(
+      `[products] fetch failed (${error.message}) — serving ${FALLBACK_PRODUCTS.length} products from the build-time seed snapshot. Check NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY.`,
+    );
+    return FALLBACK_PRODUCTS;
   }
   return data.map(rowToProduct);
 }

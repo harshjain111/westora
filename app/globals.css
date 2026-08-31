@@ -93,26 +93,30 @@
   --text-h1: 4.5rem; /* 72px desktop — Hero */
   --text-h1--line-height: 1.1;
 
-  /* Font roles — files wired in app/fonts.ts. Canela (design system's
-     named display face) has no free self-hostable release; Cormorant
-     Garamond is the system's own named free alternative. Body = Inter,
-     per spec.
+  /* Font roles — files wired in app/fonts.ts.
 
-     --font-mono is the "label" role — nav links, eyebrows, specs, HS
-     codes, buttons — not literal monospace. It used to point at
-     JetBrains Mono, a coding typeface that read as technical/dev-tool
-     rather than the elegant corporate register the brand calls for.
-     Repointed at Inter (same family as body, tracked wider + uppercased
-     at the call site) — simpler, more corporate, and one fewer font file
-     for the browser to fetch. The variable name stays --font-mono since
-     the token contract elsewhere in this file is locked; only what it
-     resolves to changed. */
-  --font-display: var(--font-cormorant-garamond), Georgia, serif;
+     --font-display was Cormorant Garamond (a serif standing in for the
+     design system's Canela) and is now Manrope, a humanist grotesque —
+     changed at the client's direction (2026-09) for a more modern
+     register. The whole site is now sans-serif; the fallback stack is
+     sans too, so a font-load failure no longer flips headings to a
+     serif that no longer matches anything else on the page.
+
+     --font-mono is the "label" role — nav links, specs, HS codes,
+     buttons — not literal monospace. It used to point at JetBrains
+     Mono, a coding typeface that read as technical/dev-tool rather than
+     the corporate register the brand calls for. Repointed at Inter
+     (same family as body, tracked wider + uppercased at the call site).
+     The variable name stays --font-mono since the token contract
+     elsewhere in this file is locked; only what it resolves to changed. */
+  --font-display: var(--font-manrope), "Helvetica Neue", system-ui, sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-inter), system-ui, sans-serif;
 
   --tracking-mono-label: 0.02em;
-  --tracking-display: -0.02em;
+  /* Tighter than the serif wanted: a grotesque at 72px needs real
+     negative tracking to stop the headline reading as loose. */
+  --tracking-display: -0.035em;
 
   /* =====================================================================
      LAYOUT — design system §10/§20
@@ -150,6 +154,17 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Manrope ships no italic. Left alone, every <em> inside a display
+   heading renders as a browser-synthesised oblique — a mechanically
+   slanted upright, which at 44–72px reads as a rendering fault rather
+   than as emphasis. The <em> is kept for semantics; the emphasis is
+   carried by the accent colour already applied at each call site.
+   Body-size italics (botanical names, a real typographic convention)
+   are left alone — the synthetic slant is unobjectionable at 13px. */
+.font-display em {
+  font-style: normal;
+}
+
 /* Anchor targets sit under the fixed 88px nav (design system §4). */
 [id] {
   scroll-margin-top: 96px;
@@ -166,4 +181,17 @@ html {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Ambient drift for full-bleed section stills — see EnquirySection.tsx.
+   Deliberately tiny and slow: enough to stop a large static photograph
+   feeling frozen, small enough that it never reads as an animation. */
+@keyframes slow-drift {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+.animate-slow-drift {
+  animation: slow-drift 24s ease-in-out infinite;
+  will-change: transform;
 }

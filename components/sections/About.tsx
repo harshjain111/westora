@@ -1,11 +1,12 @@
-import Image from "next/image";
+import { AmbientVideo } from "@/components/ui/AmbientVideo";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
 import { Motif } from "@/components/ui/Motif";
+import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { StatCell } from "@/components/ui/StatCell";
 import { company, filterEmpty } from "@/data/company";
+import aboutImage from "@/public/images/about-northeast-india.jpg";
 
 // Copy below the heading is verbatim from the client's supplied reference
 // layout for this section, at their explicit direction to replicate it
@@ -31,13 +32,16 @@ export function About() {
             className="pointer-events-none absolute -bottom-10 -right-10 -z-10 hidden w-[60%] max-w-[340px] opacity-[0.12] lg:block"
           />
 
-          <Eyebrow as="p">Why Northeast India</Eyebrow>
-          <div className="mt-3 h-[2px] w-6 bg-accent" aria-hidden="true" />
+          <Reveal>
+            <div className="h-[2px] w-6 bg-accent" aria-hidden="true" />
+          </Reveal>
 
-          <Heading level={2} className="mt-6 max-w-[16ch]">
-            Premium ingredients, grown where{" "}
-            <em className="text-accent">nature intended</em>.
-          </Heading>
+          <Reveal delay={0.08}>
+            <Heading level={2} className="mt-6 max-w-[16ch]">
+              Premium ingredients, grown where{" "}
+              <em className="text-accent">nature intended</em>.
+            </Heading>
+          </Reveal>
 
           <div className="mt-5 flex items-center gap-3" aria-hidden="true">
             <span className="h-px w-6 bg-rule" />
@@ -56,19 +60,19 @@ export function About() {
             <span className="h-px w-6 bg-rule" />
           </div>
 
-          <div className="mt-6 flex flex-col gap-4">
-            <p className="max-w-[46ch] text-body text-ink-muted">
+          <RevealGroup className="mt-6 flex flex-col gap-4">
+            <RevealItem as="p" className="max-w-[46ch] text-body text-ink-muted">
               The fertile lands and unique climate of Northeast India create
               the perfect conditions for bold flavour, rich aroma and
               unmatched quality.
-            </p>
-            <p className="max-w-[46ch] text-body text-ink-muted">
+            </RevealItem>
+            <RevealItem as="p" className="max-w-[46ch] text-body text-ink-muted">
               We source directly from local farmers, ensuring traceability,
               sustainability and excellence in every batch.
-            </p>
-          </div>
+            </RevealItem>
+          </RevealGroup>
 
-          <div className="mt-8">
+          <Reveal delay={0.12} className="mt-8">
             <Button
               as="a"
               href="#catalogue"
@@ -77,16 +81,16 @@ export function About() {
             >
               Learn more →
             </Button>
-          </div>
+          </Reveal>
         </div>
 
         <div className="relative order-1 aspect-[4/3] w-full lg:order-2 lg:aspect-auto lg:min-h-[420px]">
-          <Image
-            src="/images/about-northeast-india.jpg"
+          <AmbientVideo
+            src="/video/about-valley.mp4"
+            poster={aboutImage}
             alt="Mist rising over terraced tea gardens in Northeast India at sunrise"
-            fill
             sizes="(min-width: 1024px) 58vw, 100vw"
-            className="object-cover"
+            className="absolute inset-0"
           />
           {/* Feathers the photo's left edge into the ivory ground instead of
               a hard vertical cut, matching the reference — desktop only,

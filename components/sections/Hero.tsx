@@ -1,24 +1,23 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { AmbientVideo } from "@/components/ui/AmbientVideo";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { IconBadge } from "@/components/ui/IconBadge";
+import { HeroSpices } from "@/components/sections/HeroSpices";
 import { useEnquiryModal } from "@/lib/context/EnquiryModalContext";
 import { track } from "@/lib/analytics/track";
-import heroImage from "@/public/images/hero-background.jpg";
+import teaWideImage from "@/public/images/hero-tea-wide.jpg";
 
 const containerVariants: Variants = {
   hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08 },
-  },
+  visible: { transition: { staggerChildren: 0.08 } },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 18 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
 };
 
 export function Hero() {
@@ -28,74 +27,135 @@ export function Hero() {
   const childVariants = prefersReducedMotion ? undefined : itemVariants;
 
   return (
-    // pt-[140px] is a hard floor (nav height 88px + breathing room) so the
-    // heading can never render underneath the fixed nav — items-end/pb-20
-    // bottom-align the content within whatever space remains below that
-    // floor, but on a short viewport the floor wins over the alignment.
-    <section
-      id="hero"
-      className="relative flex min-h-[90svh] items-center overflow-hidden bg-brand-deep pb-20 pt-[140px] md:items-end"
-    >
-      <Image
-        src={heroImage}
-        alt=""
-        fill
-        priority
-        placeholder="blur"
-        sizes="100vw"
-        className="object-cover"
-      />
-      <div className="absolute inset-0 bg-brand-deep/55" aria-hidden="true" />
+    <section id="hero" className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-surface">
+      {/* Upper region: the footage and the copy share it, and it flexes to
+          whatever is left after the origin band below has taken its
+          height. The band therefore always sits on flat ground no matter
+          how many rows it wraps to. */}
+      <div className="relative flex flex-1 flex-col">
+      {/* ================================================================
+          FULL-BLEED BACKGROUND
+          Runs edge to edge and to y=0, so it sits behind the transparent
+          nav rather than starting below it, and stops where the origin
+          band begins — the cut-outs never sit on a photograph.
+          ================================================================ */}
+      <div className="absolute inset-0 z-0">
+        <AmbientVideo
+          src="/video/hero-tea-wide.mp4"
+          poster={teaWideImage}
+          alt="A tea picker working the plantation rows of a Northeast India estate"
+          sizes="100vw"
+          priority
+          minWidth={768}
+          className="absolute inset-0"
+          objectPosition="object-[62%_center]"
+        />
 
-      <Container className="relative z-10">
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={variants}
-          className="flex flex-col items-center text-center md:items-start md:text-left md:max-w-[720px]"
-        >
-          <motion.div variants={childVariants}>
-            <Eyebrow as="p" tone="on-deep" className="text-on-deep">
-              Northeast India · Exporting to 9 global markets
-            </Eyebrow>
-          </motion.div>
+        {/* Desktop: ground sweeps in from the left so the headline column
+            sits on flat cream while the estate stays open on the right. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 hidden lg:block"
+          style={{
+            background:
+              "linear-gradient(to right, var(--color-surface) 0%, var(--color-surface) 33%, color-mix(in srgb, var(--color-surface) 84%, transparent) 46%, color-mix(in srgb, var(--color-surface) 34%, transparent) 62%, transparent 80%)",
+          }}
+        />
+        {/* Below lg there is no side-by-side to protect, so the same idea
+            runs vertically: flat cream behind the copy, the estate opening
+            up beneath it. A horizontal fade here would leave the headline
+            sitting on bright foliage. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 lg:hidden"
+          style={{
+            background:
+              "linear-gradient(to bottom, var(--color-surface) 0%, var(--color-surface) 44%, color-mix(in srgb, var(--color-surface) 76%, transparent) 60%, color-mix(in srgb, var(--color-surface) 28%, transparent) 78%, transparent 94%)",
+          }}
+        />
+        {/* Dissolves the footage into the origin spread's ground so the
+            two meet on a soft edge instead of a hard horizontal seam. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-[34%]"
+          style={{
+            background:
+              "linear-gradient(to top, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 72%, transparent) 46%, transparent 100%)",
+          }}
+        />
+      </div>
 
-          <motion.h1 variants={childVariants} className="mt-6 font-display text-h1 text-on-deep">
-            Premium origins. Global excellence.
+      {/* ================================================================
+          COPY
+          ================================================================ */}
+      <Container className="relative z-10 flex flex-1 items-center pt-[132px] lg:pt-[140px]">
+        <motion.div initial="hidden" animate="visible" variants={variants} className="max-w-[620px]">
+          <motion.h1
+            variants={childVariants}
+            className="font-display text-h1 font-extrabold leading-[0.98] tracking-display text-ink"
+          >
+            <span className="block">Premium origins.</span>
+            {/* Manrope has no italic, so the second line is set apart by
+                weight and colour instead of slope — see app/fonts.ts. */}
+            <span className="block font-light text-brand-mid">Global excellence.</span>
           </motion.h1>
 
-          <motion.p variants={childVariants} className="mt-6 max-w-[52ch] text-lead text-on-deep-muted">
+          <motion.p variants={childVariants} className="mt-7 max-w-[46ch] text-body text-ink-muted">
             We export 17 high-value crops from Northeast India to buyers
             across the Middle East, Europe, Asia and North America —
             traceable to district, tested to spec, delivered on schedule.
           </motion.p>
 
-          <motion.div
-            variants={childVariants}
-            className="mt-10 flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row"
-          >
+          <motion.div variants={childVariants} className="mt-9 flex flex-wrap items-center gap-4">
             <Button
               as="a"
               href="#catalogue"
               variant="primary"
-              size="lg"
+              className="gap-4 rounded-full bg-brand-deep pl-8 pr-2 text-on-deep hover:brightness-125"
               onClick={() => track("hero_cta_click", { target: "catalogue" })}
             >
-              View the catalogue
+              View the Catalogue
+              <IconBadge icon="arrowRight" size="sm" filled className="h-9 w-9 bg-surface-raised text-ink" />
             </Button>
             <Button
-              variant="ghost-on-deep"
-              size="lg"
+              variant="secondary"
+              className="rounded-full px-8"
               onClick={() => {
                 track("hero_cta_click", { target: "quote" });
                 openEnquiry();
               }}
             >
-              Request a quote
+              Request a Quote
             </Button>
           </motion.div>
         </motion.div>
       </Container>
+      </div>
+
+      {/* ================================================================
+          ORIGIN SPREAD
+          Its own flat band at the foot of the hero. Giving it a real
+          ground — rather than letting it float over the footage — is what
+          makes seven cut-outs read as objects on a page instead of
+          stickers on a photograph.
+          ================================================================ */}
+      <motion.div
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
+        className="relative z-10 bg-surface pb-5 pt-2"
+      >
+        <Container>
+          <div className="mb-3 flex items-center gap-4 lg:justify-center">
+            <span className="hidden h-px w-8 shrink-0 bg-rule sm:block" aria-hidden="true" />
+            <p className="font-mono text-[11px] leading-snug tracking-mono-label uppercase text-ink-muted">
+              One crop from each of the seven Northeast states
+            </p>
+            <span className="hidden h-px w-8 shrink-0 bg-rule sm:block" aria-hidden="true" />
+          </div>
+          <HeroSpices />
+        </Container>
+      </motion.div>
     </section>
   );
 }

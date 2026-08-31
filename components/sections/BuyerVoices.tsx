@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
+import { Reveal } from "@/components/ui/Reveal";
 import { IconBadge, type IconName } from "@/components/ui/IconBadge";
 import { Motif } from "@/components/ui/Motif";
 
@@ -34,21 +34,21 @@ const STEPS: { number: string; title: string; icon: IconName; image: string; alt
     title: "Tell us what you need",
     icon: "message",
     image: "/images/working-requirements.jpg",
-    alt: "A black notebook embossed 'Your Requirements' with a pen resting on it",
+    alt: "Two people reviewing a printed spice specification sheet at a workbench, dishes of turmeric and black pepper beside it",
   },
   {
     number: "02",
     title: "Sample first, always",
     icon: "package",
     image: "/images/working-sample-pack.jpg",
-    alt: "A dark green sample pack box beside bowls of cardamom and black pepper",
+    alt: "Kraft-paper sample pouches being filled with turmeric on a workbench",
   },
   {
     number: "03",
     title: "Then we contract",
     icon: "document",
     image: "/images/working-contract.jpg",
-    alt: "A signed contract document with a pen and wax seal",
+    alt: "An export contract being signed at a desk, with black tea and peppercorns alongside",
   },
 ];
 
@@ -94,9 +94,8 @@ export function BuyerVoices({ testimonials }: BuyerVoicesProps) {
       />
 
       <Container className="relative">
-        <div className="max-w-[640px]">
-          <Eyebrow as="p">Working with us</Eyebrow>
-          <Heading level={2} className="mt-4">
+        <Reveal className="max-w-[640px]">
+          <Heading level={2}>
             What working with us looks like
           </Heading>
           <div className="mt-5 flex items-center gap-3" aria-hidden="true">
@@ -115,7 +114,7 @@ export function BuyerVoices({ testimonials }: BuyerVoicesProps) {
             </svg>
             <span className="h-px w-6 bg-rule" />
           </div>
-        </div>
+        </Reveal>
 
         <motion.div
           initial="hidden"

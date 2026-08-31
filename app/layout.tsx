@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { cormorantGaramond, inter } from "./fonts";
+import { manrope, inter } from "./fonts";
 import { buildOrganizationJsonLd } from "@/lib/seo/jsonld";
 import { EnquiryModal } from "@/components/form/EnquiryModal";
 import { EnquiryModalProvider } from "@/lib/context/EnquiryModalContext";
@@ -55,7 +55,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${cormorantGaramond.variable} ${inter.variable}`}
+      className={`${manrope.variable} ${inter.variable}`}
     >
       <body className="font-body antialiased">
         <ProductsProvider products={products}>

@@ -17,12 +17,19 @@ export function EnquirySection() {
 
   return (
     <section id="enquiry" className="relative overflow-hidden bg-brand-deep">
+      {/* A very slow, very small scale drift. The closing section is a
+          full-bleed still at the foot of a page that is otherwise alive,
+          and it read as flat next to the rest. 24s and 1.06x is below the
+          threshold at which it registers as an animation — it just stops
+          the image feeling frozen. CSS-only, so no extra request, and it
+          is disabled outright under prefers-reduced-motion by the
+          `motion-reduce` variants. */}
       <Image
         src="/images/start-sourcing.jpg"
-        alt="A branded Westora Global gift box beside bowls of cardamom and black pepper, with a Naturally Sourced tag"
+        alt="A jute sack spilling green cardamom beside bowls of black pepper, dried chillies and a bundle of cinnamon on dark slate"
         fill
         sizes="100vw"
-        className="object-cover object-[70%_center] sm:object-[62%_center] lg:object-center"
+        className="animate-slow-drift object-cover object-[68%_center] motion-reduce:animate-none sm:object-[60%_center] lg:object-center"
       />
       {/* Guarantees text contrast regardless of how much of the product
           photo's darker left zone survives the responsive crop above. */}
@@ -53,7 +60,7 @@ export function EnquirySection() {
         <Heading level={2} className="max-w-[16ch] text-on-deep">
           Source <em className="text-accent-on-deep">premium</em> ingredients.
           <br />
-          Build lasting <em className="text-accent-on-deep">partnerships</em>.
+          Build <em className="text-accent-on-deep">lasting partnerships</em>.
         </Heading>
 
         <p className="max-w-[42ch] text-lead text-on-deep-muted">
