@@ -186,7 +186,7 @@ export function Nav() {
             onClick={() => setIsDrawerOpen(true)}
             aria-label="Open menu"
             aria-expanded={isDrawerOpen}
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-rule text-ink transition-colors hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-rule text-ink transition-colors hover:border-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:hidden"
           >
             <svg width="18" height="13" viewBox="0 0 18 13" fill="none" aria-hidden="true">
               <path d="M0 1H18" stroke="currentColor" strokeWidth="1.5" />
