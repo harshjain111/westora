@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { TrackedLink } from "@/components/analytics/TrackedLink";
+import { CatalogueDownloadTrigger } from "@/components/form/CatalogueDownloadModal";
 import { getCategoryCounts, type Category } from "@/data/products";
 import { company, filterEmpty } from "@/data/company";
 
@@ -80,13 +81,12 @@ export async function Footer() {
                 </li>
               ))}
               <li>
-                <TrackedLink
-                  event="catalogue_pdf_download"
+                <CatalogueDownloadTrigger
                   href="/westora-global-catalogue.pdf"
                   className="inline-flex min-h-11 items-center text-small text-accent hover:text-on-deep"
                 >
                   Download catalogue (PDF)
-                </TrackedLink>
+                </CatalogueDownloadTrigger>
               </li>
             </ul>
           </div>
