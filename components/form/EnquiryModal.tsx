@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
 import { EnquiryFormLazy as EnquiryForm } from "@/components/form/EnquiryFormLazy";
 import { useEnquiryModal } from "@/lib/context/EnquiryModalContext";
@@ -142,10 +141,7 @@ export function EnquiryModal() {
           <div className="absolute inset-0 bg-gradient-to-t from-brand-deep via-brand-deep/95 to-brand-deep/70" />
 
           <div className="relative">
-            <Eyebrow tone="on-deep" as="p">
-              Start here
-            </Eyebrow>
-            <Heading level={3} id="enquiry-modal-title" className="mt-3 text-on-deep">
+            <Heading level={3} id="enquiry-modal-title" className="text-on-deep">
               Tell us what you need.
             </Heading>
             <p className="mt-3 text-body text-on-deep-muted">

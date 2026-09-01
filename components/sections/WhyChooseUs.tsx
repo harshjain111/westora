@@ -2,7 +2,6 @@
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
 import { IconBadge, type IconName } from "@/components/ui/IconBadge";
 import { Motif } from "@/components/ui/Motif";
@@ -66,37 +65,51 @@ export function WhyChooseUs() {
           whileInView="visible"
           viewport={{ once: true, margin: "-10% 0px" }}
           variants={variants}
-          className="mx-auto max-w-[640px] text-center"
+          className="max-w-[640px]"
         >
           <motion.div variants={childVariants}>
-            <Eyebrow as="p" className="text-center">Why Westora</Eyebrow>
-          </motion.div>
-          <motion.div variants={childVariants}>
-            <Heading level={2} className="mt-4">
-              Why importers choose us
-            </Heading>
+            <Heading level={2}>Why importers choose us</Heading>
+            <div className="mt-4 h-[3px] w-16 bg-accent" aria-hidden="true" />
           </motion.div>
         </motion.div>
 
-        <motion.div
+        {/* Was four centred icons floating on open cream — accurate, but it
+            read as a placeholder. Each point is now a real card with a
+            rule, an index and a hover state, so the four claims sit in a
+            structure a buyer can scan rather than in dead space. */}
+        <motion.ul
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-10% 0px" }}
           variants={variants}
-          className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4"
+          className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
         >
-          {POINTS.map((point) => (
-            <motion.div
+          {POINTS.map((point, index) => (
+            <motion.li
               key={point.title}
               variants={childVariants}
-              className="flex flex-col items-center text-center"
+              className="group relative flex flex-col overflow-hidden rounded-card border border-rule bg-surface-raised p-6 transition-all duration-[400ms] ease-out hover:-translate-y-1.5 hover:border-accent/40 hover:shadow-[0_20px_45px_rgba(43,32,21,0.10)]"
             >
-              <IconBadge icon={point.icon} filled />
-              <p className="mt-4 font-display text-lead text-ink">{point.title}</p>
-              <p className="mt-2 text-small text-ink-muted">{point.body}</p>
-            </motion.div>
+              {/* Accent rail that draws itself in on hover. */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-[3px] origin-left scale-x-0 bg-accent transition-transform duration-[400ms] ease-out group-hover:scale-x-100"
+              />
+
+              <div className="flex items-start justify-between gap-4">
+                <IconBadge icon={point.icon} />
+                <span className="font-mono text-[11px] tracking-mono-label text-ink-muted/60">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
+
+              <p className="mt-6 font-display text-lead font-semibold leading-tight text-ink">
+                {point.title}
+              </p>
+              <p className="mt-2.5 text-small leading-relaxed text-ink-muted">{point.body}</p>
+            </motion.li>
           ))}
-        </motion.div>
+        </motion.ul>
       </Container>
     </section>
   );

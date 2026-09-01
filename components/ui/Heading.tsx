@@ -17,7 +17,11 @@ export function Heading({ level, as, className, children, ...props }: HeadingPro
   return (
     <Tag
       className={cn(
-        "font-display font-normal tracking-tight text-balance",
+        // Weight 400 was right for the old serif, where the letterforms
+        // carried the presence themselves. A grotesque at 44px set at 400
+        // just reads as large body copy — the section headings needed
+        // real weight and negative tracking to hold the page.
+        "font-display font-bold tracking-display text-balance",
         sizeByLevel[level],
         className,
       )}

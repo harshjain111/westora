@@ -4,31 +4,19 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
 import { useCatalogueFilter } from "@/lib/context/CatalogueFilterContext";
 import { useProducts } from "@/lib/context/ProductsContext";
 import { track } from "@/lib/analytics/track";
 import { cn } from "@/lib/utils/cn";
+import { ORIGIN_STATES, type OriginState } from "@/data/origin-states";
 
-interface StateMarker {
-  name: string;
-  x: number;
-  y: number;
-}
-
-// Positions are percentages within the cropped /images/origin-map.png
-// (1001x1077) — measured by clustering the gold dot pixels already baked
-// into the source image via pixel-sampling, not eyeballed. See the
-// crop/keying script used to produce that asset from map.png.
-const STATES: StateMarker[] = [
-  { name: "Arunachal Pradesh", x: 64.9, y: 20.1 },
-  { name: "Assam", x: 36.8, y: 41.2 },
-  { name: "Nagaland", x: 63.1, y: 44.2 },
-  { name: "Meghalaya", x: 16.4, y: 57.3 },
-  { name: "Manipur", x: 56.6, y: 60.4 },
-  { name: "Mizoram", x: 40.7, y: 80.9 },
-];
+// States, pin coordinates and the crop standing for each now come from
+// data/origin-states.ts, shared with the hero's origin spread — so the
+// map and the hero can never disagree about which states exist or what
+// represents them. Tripura was previously missing here entirely.
+type StateMarker = OriginState;
+const STATES = ORIGIN_STATES;
 
 const leafPath = (
   <>
@@ -53,7 +41,7 @@ export function OriginMap() {
   function productsForState(state: string) {
     return products.filter((product) => product.origin === state);
   }
-  // Six concurrent infinite animations running from page load regardless
+  // Seven concurrent infinite animations running from page load regardless
   // of scroll position was wasted compositor work for most of the visit
   // — gated to only animate while the map is actually on screen.
   const mapRef = useRef<HTMLDivElement>(null);
@@ -61,6 +49,7 @@ export function OriginMap() {
 
   const activeProducts = productsForState(activeState);
   const previewImage = activeProducts[0]?.images[0];
+  const activeMeta = STATES.find((s) => s.name === activeState)!;
 
   const handleViewInCatalogue = (state: string) => {
     track("origin_map_state_click", { state });
@@ -76,11 +65,8 @@ export function OriginMap() {
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-[minmax(0,420px)_1fr] lg:items-center lg:gap-12 xl:gap-24">
           {/* LEFT: copy, state pills, live preview card */}
           <div>
-            <Eyebrow tone="on-deep" as="p">
-              Origin
-            </Eyebrow>
-            <p className="mt-5 font-display text-lead italic text-on-deep-muted">
-              Six states, one region
+            <p className="font-display text-lead text-on-deep-muted">
+              Seven states, one region
             </p>
             <Heading level={2} className="mt-3 text-on-deep">
               Select a state to see what we <em className="text-accent-on-deep">source</em> from it.
@@ -91,7 +77,7 @@ export function OriginMap() {
               exceptional quality and rich flavour.
             </p>
 
-            <div className="mt-8 grid grid-cols-3 gap-3">
+            <div className="mt-8 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
               {STATES.map((state) => {
                 const isActive = activeState === state.name;
                 return (
@@ -137,7 +123,7 @@ export function OriginMap() {
                 transition={{ duration: 0.35, ease: "easeOut" }}
                 className="flex gap-4 rounded-card border border-on-deep-muted/20 bg-surface/[0.04] p-4"
               >
-                {previewImage && (
+                {previewImage ? (
                   <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-photo">
                     <Image
                       src={previewImage.src}
@@ -147,6 +133,17 @@ export function OriginMap() {
                       className="object-cover"
                     />
                   </div>
+                ) : (
+                  // No catalogued SKU for this state — fall back to its
+                  // signature-crop cut-out so the card never renders as an
+                  // empty slot.
+                  <Image
+                    src={activeMeta.image}
+                    alt=""
+                    aria-hidden="true"
+                    sizes="80px"
+                    className="h-20 w-20 shrink-0 object-contain"
+                  />
                 )}
                 <div className="min-w-0">
                   <p className="font-mono text-eyebrow uppercase tracking-mono-label text-accent-on-deep">
@@ -173,15 +170,23 @@ export function OriginMap() {
                       ))}
                     </ul>
                   ) : (
-                    <p className="mt-2 text-small text-on-deep-muted">Northeast India origin</p>
+                    <p className="mt-2 text-small leading-snug text-on-deep-muted">
+                      <span className="text-on-deep">{activeMeta.crop}</span> — the region&apos;s
+                      signature crop, not yet catalogued.
+                    </p>
                   )}
-                  <button
-                    type="button"
-                    onClick={() => handleViewInCatalogue(activeState)}
-                    className="-ml-1 mt-1 inline-flex min-h-11 items-center px-1 font-mono text-[0.6875rem] uppercase tracking-mono-label text-accent-on-deep underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-on-deep"
-                  >
-                    View in catalogue →
-                  </button>
+                  {/* Only offered when the filter would actually land on
+                      something. For a state with no SKUs it would scroll
+                      the buyer to an empty grid. */}
+                  {activeProducts.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => handleViewInCatalogue(activeState)}
+                      className="-ml-1 mt-1 inline-flex min-h-11 items-center px-1 font-mono text-[0.6875rem] uppercase tracking-mono-label text-accent-on-deep underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-on-deep"
+                    >
+                      View in catalogue →
+                    </button>
+                  )}
                 </div>
               </motion.div>
             </div>
@@ -208,7 +213,7 @@ export function OriginMap() {
           <div ref={mapRef} className="relative mx-auto aspect-[1000/1076] w-full max-w-[480px] lg:max-w-none">
             <Image
               src="/images/origin-map.png"
-              alt="Relief map of Arunachal Pradesh, Assam, Meghalaya, Nagaland, Manipur and Mizoram — the six Northeast India states Westora sources from"
+              alt="Relief map of the seven Northeast India states Westora sources from: Arunachal Pradesh, Assam, Nagaland, Meghalaya, Manipur, Tripura and Mizoram"
               fill
               sizes="(min-width: 1024px) 46vw, 90vw"
               className="object-contain"
@@ -263,17 +268,34 @@ export function OriginMap() {
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       transition={{ duration: 0.3, ease: "easeOut" }}
                       className={cn(
-                        "pointer-events-none absolute z-10 w-max max-w-[min(220px,60vw)] rounded-card border border-on-deep-muted/25 bg-brand-deep/60 p-3 text-left shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-md",
+                        "pointer-events-none absolute z-10 w-max max-w-[min(240px,62vw)] rounded-card border border-on-deep-muted/25 bg-brand-deep/85 p-3 text-left shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-md",
                         tooltipPositionClasses(state),
                       )}
                     >
-                      <p className="font-mono text-eyebrow uppercase tracking-mono-label text-accent-on-deep">
-                        {state.name}
-                      </p>
-                      <p className="mt-1 text-small text-on-deep-muted">
+                      <div className="flex items-center gap-3">
+                        {/* The state's crop, same cut-out the hero uses —
+                            it ties the two sections together and makes the
+                            pin mean something at a glance. */}
+                        <Image
+                          src={state.image}
+                          alt=""
+                          aria-hidden="true"
+                          sizes="52px"
+                          className="h-[52px] w-[52px] shrink-0 object-contain"
+                        />
+                        <div className="min-w-0">
+                          <p className="font-mono text-eyebrow uppercase tracking-mono-label text-accent-on-deep">
+                            {state.name}
+                          </p>
+                          <p className="mt-1 font-display text-small font-semibold leading-tight text-on-deep">
+                            {state.crop}
+                          </p>
+                        </div>
+                      </div>
+                      <p className="mt-2.5 border-t border-on-deep-muted/25 pt-2.5 text-small leading-snug text-on-deep-muted">
                         {stateProducts.length > 0
                           ? stateProducts.map((product) => product.name).join(" · ")
-                          : "Northeast India origin"}
+                          : "Regional signature crop — not yet catalogued."}
                       </p>
                     </motion.div>
                   )}

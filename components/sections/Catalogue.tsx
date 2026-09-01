@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Reveal } from "@/components/ui/Reveal";
 import { Heading } from "@/components/ui/Heading";
 import { IconBadge, type IconName } from "@/components/ui/IconBadge";
 import { CategoryFilter, type CategoryKey } from "@/components/product/CategoryFilter";
@@ -41,9 +41,15 @@ const CTA_POINTS: { icon: IconName; title: string; body: string }[] = [
 
 export interface CatalogueProps {
   initialCategory?: CategoryKey;
+  /** Cap the grid to a preview and show a "view all" link beneath it.
+   *  Omitted on /catalogue, which is the "all" destination. */
+  limit?: number;
+  /** The banner headline + photo. Off on /catalogue, which supplies its
+   *  own page heading — two headings in a row read as a duplicate. */
+  showIntro?: boolean;
 }
 
-export function Catalogue({ initialCategory = "all" }: CatalogueProps) {
+export function Catalogue({ initialCategory = "all", limit, showIntro = true }: CatalogueProps) {
   const [category, setCategory] = useState<CategoryKey>(initialCategory);
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const prefersReducedMotion = useReducedMotion();
@@ -55,6 +61,12 @@ export function Catalogue({ initialCategory = "all" }: CatalogueProps) {
     const byCategory = getByCategory(category);
     return stateFilter ? byCategory.filter((product) => product.origin === stateFilter) : byCategory;
   }, [category, stateFilter]);
+
+  // The homepage shows a preview; the full set lives on /catalogue. The
+  // count below the grid always reports the real total, never the
+  // truncated one, so the cap never reads as "this is all there is".
+  const visible = limit ? items.slice(0, limit) : items;
+  const hiddenCount = items.length - visible.length;
 
   // Direct load of /?product=slug opens the modal (FR-5.8). Runs after
   // mount so the server-rendered markup (always closed) matches the
@@ -88,42 +100,43 @@ export function Catalogue({ initialCategory = "all" }: CatalogueProps) {
 
   return (
     <section id="catalogue" className="bg-surface">
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-y-0 right-0 hidden w-[58%] lg:block">
-          <Image
-            src="/images/catalogue-banner.jpg"
-            alt="Ginger, cardamom, cinnamon and star anise arranged on a wooden table"
-            fill
-            sizes="58vw"
-            className="object-cover"
-            priority
-          />
-          {/* Image overlay scrim — the one gradient CLAUDE.md §4 permits —
-              fades the photo's left edge into bg-surface so the crop line
-              doesn't read as a hard seam against the page background. */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-0 w-1/3"
-            style={{ background: "linear-gradient(to right, var(--color-surface), transparent)" }}
-          />
-        </div>
-
-        <Container className="relative py-24 lg:py-32">
-          <div className="max-w-[560px]">
-            <Eyebrow as="p">The catalogue</Eyebrow>
-            <Heading level={2} className="mt-4">
-              Our product catalogue
-            </Heading>
-            <div className="mt-3 h-[3px] w-16 bg-accent" aria-hidden="true" />
-            <p className="mt-6 text-lead text-ink-muted">
-              Explore our range of origin-locked crops, carefully sourced from
-              Northeast India and exported worldwide.
-            </p>
+      {showIntro && (
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-y-0 right-0 hidden w-[58%] lg:block">
+            <Image
+              src="/images/catalogue-banner.jpg"
+              alt="Ginger, cardamom, cinnamon and star anise arranged on a wooden table"
+              fill
+              sizes="58vw"
+              className="object-cover"
+              priority
+            />
+            {/* Image overlay scrim — the one gradient CLAUDE.md §4 permits —
+                fades the photo's left edge into bg-surface so the crop line
+                doesn't read as a hard seam against the page background. */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 left-0 w-1/3"
+              style={{ background: "linear-gradient(to right, var(--color-surface), transparent)" }}
+            />
           </div>
-        </Container>
-      </div>
 
-      <Container className="pt-16 lg:pt-20">
+          <Container className="relative py-24 lg:py-32">
+            <Reveal className="max-w-[560px]">
+              <Heading level={2}>
+                Our product catalogue
+              </Heading>
+              <div className="mt-3 h-[3px] w-16 bg-accent" aria-hidden="true" />
+              <p className="mt-6 text-lead text-ink-muted">
+                Explore our range of origin-locked crops, carefully sourced from
+                Northeast India and exported worldwide.
+              </p>
+            </Reveal>
+          </Container>
+        </div>
+      )}
+
+      <Container className={showIntro ? "pt-16 lg:pt-20" : "pt-4"}>
         <div className="flex flex-wrap items-center justify-center gap-4">
           <CategoryFilter value={category} onChange={handleCategoryChange} />
           {stateFilter && (
@@ -140,9 +153,9 @@ export function Catalogue({ initialCategory = "all" }: CatalogueProps) {
         <motion.div
           layout={!prefersReducedMotion}
           transition={{ duration: 0.3 }}
-          className="mt-10 grid grid-cols-2 gap-3 min-[640px]:gap-6 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4"
+          className="mt-10 grid grid-cols-2 gap-3 min-[520px]:grid-cols-3 min-[640px]:gap-4 lg:grid-cols-5 xl:grid-cols-6"
         >
-          {items.map((product, index) => (
+          {visible.map((product, index) => (
             <motion.div
               key={product.slug}
               layout={!prefersReducedMotion}
@@ -150,10 +163,28 @@ export function Catalogue({ initialCategory = "all" }: CatalogueProps) {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
             >
-              <ProductCard product={product} onOpen={handleOpenFromGrid} priority={index < 4} />
+              <ProductCard product={product} onOpen={handleOpenFromGrid} priority={index < 6} />
             </motion.div>
           ))}
         </motion.div>
+
+        {hiddenCount > 0 && (
+          <div className="mt-10 flex flex-col items-center gap-3">
+            <Button
+              as="a"
+              href="/catalogue"
+              variant="primary"
+              className="gap-4 rounded-full bg-brand-deep pl-8 pr-2 text-on-deep hover:brightness-125"
+              onClick={() => track("catalogue_filter_change", { category: "all" })}
+            >
+              View all {items.length} products
+              <IconBadge icon="arrowRight" size="sm" filled className="h-9 w-9 bg-surface-raised text-ink" />
+            </Button>
+            <p className="font-mono text-[11px] tracking-mono-label uppercase text-ink-muted">
+              {hiddenCount} more in the full catalogue
+            </p>
+          </div>
+        )}
 
         {/* Mobile / tablet: simple stacked card — the desktop version below
             relies on a fixed-aspect diagonal background image that can't

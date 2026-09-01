@@ -2,8 +2,8 @@
 
 import { Accordion } from "@/components/ui/Accordion";
 import { Container } from "@/components/ui/Container";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Heading } from "@/components/ui/Heading";
+import { Reveal } from "@/components/ui/Reveal";
 import { track } from "@/lib/analytics/track";
 import { faqItems } from "@/data/faq";
 
@@ -27,12 +27,13 @@ export function Faq() {
     <section id="faq" className="bg-surface py-24 lg:py-40">
       <Container>
         <div className="mx-auto max-w-[720px]">
-          <Eyebrow as="p">FAQ</Eyebrow>
-          <Heading level={2} className="mt-4">
-            Questions buyers ask us
-          </Heading>
+          <Reveal>
+            <Heading level={2}>
+              Questions buyers ask us
+            </Heading>
+          </Reveal>
 
-          <div className="mt-10">
+          <Reveal delay={0.08} className="mt-10">
             <Accordion
               defaultOpenId={faqItems[0]?.id}
               items={faqItems.map((item) => ({
@@ -42,7 +43,7 @@ export function Faq() {
               }))}
               onItemOpen={(index) => track("faq_open", { question_index: index })}
             />
-          </div>
+          </Reveal>
         </div>
       </Container>
 
