@@ -142,11 +142,41 @@ export async function Footer() {
               </li>
               {hasAddress && (
                 <li className="pt-2">
-                  {[address.line1, address.line2, address.city, address.state, address.pincode, address.country]
-                    .filter(Boolean)
-                    .join(", ")}
+                  <p className="font-mono text-[11px] uppercase tracking-mono-label text-on-deep-muted/70">
+                    Head office
+                  </p>
+                  <p className="mt-1">
+                    {[address.line1, address.line2, address.city, address.state, address.pincode, address.country]
+                      .filter(Boolean)
+                      .join(", ")}
+                  </p>
                 </li>
               )}
+              {company.branches.map((branch) => (
+                <li key={branch.label} className="pt-2">
+                  <p className="font-mono text-[11px] uppercase tracking-mono-label text-on-deep-muted/70">
+                    {branch.label}
+                  </p>
+                  <p className="mt-1">
+                    {[
+                      branch.address.line1,
+                      branch.address.line2,
+                      branch.address.city,
+                      branch.address.state,
+                      branch.address.pincode,
+                      branch.address.country,
+                    ]
+                      .filter(Boolean)
+                      .join(", ")}
+                  </p>
+                  <a
+                    href={`mailto:${branch.email}`}
+                    className="mt-1 inline-flex min-h-11 items-center hover:text-on-deep"
+                  >
+                    {branch.email}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

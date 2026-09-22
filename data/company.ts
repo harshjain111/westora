@@ -34,6 +34,12 @@ export interface Contact {
   whatsapp: string;
 }
 
+export interface Branch {
+  label: string;
+  address: Address;
+  email: string;
+}
+
 export interface TradeTerms {
   minimumOrder: string;
   incoterms: string;
@@ -59,6 +65,9 @@ export interface TestPanelRow {
 export interface Company {
   registrations: Registrations;
   address: Address;
+  /** Additional registered branches beyond the head office — empty array
+   * until the client confirms one exists. */
+  branches: Branch[];
   contact: Contact;
   tradeTerms: TradeTerms;
   stats: Stats;
@@ -85,14 +94,29 @@ export const company: Company = {
     cin: "", // CLIENT TO CONFIRM
     fdaFfr: "", // CLIENT TO CONFIRM
   },
+  // Supplied by the client (head office address, 2026-09).
   address: {
-    line1: "", // CLIENT TO CONFIRM
-    line2: "", // CLIENT TO CONFIRM
-    city: "", // CLIENT TO CONFIRM
-    state: "", // CLIENT TO CONFIRM
-    country: "", // CLIENT TO CONFIRM
-    pincode: "", // CLIENT TO CONFIRM
+    line1: "Kanaklata Path",
+    line2: "Six Mile",
+    city: "Guwahati",
+    state: "Assam",
+    country: "India",
+    pincode: "781022",
   },
+  branches: [
+    {
+      label: "UK Branch",
+      address: {
+        line1: "18 Langport Crescent",
+        line2: "Oakhill",
+        city: "Milton Keynes",
+        state: "",
+        country: "United Kingdom",
+        pincode: "MK5 6LZ",
+      },
+      email: "uk.sales@westoraglobal.com",
+    },
+  ],
   contact: {
     // Sourced verbatim from Westora Global Catalogue.pdf footer.
     email: "info@westoraglobal.com",
