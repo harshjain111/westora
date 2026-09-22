@@ -35,6 +35,7 @@ export interface Contact {
 }
 
 export interface TradeTerms {
+  minimumOrder: string;
   incoterms: string;
   ports: string;
   payment: string;
@@ -73,11 +74,13 @@ export interface Company {
 
 export const company: Company = {
   registrations: {
-    fssai: "", // CLIENT TO CONFIRM
-    iec: "", // CLIENT TO CONFIRM
-    spicesBoard: "", // CLIENT TO CONFIRM
-    apeda: "", // CLIENT TO CONFIRM
-    teaBoard: "", // CLIENT TO CONFIRM
+    // Supplied by the client (screenshot of the licences & registrations
+    // card, 2026-09).
+    iec: "AAFFW7150E",
+    fssai: "10326999000184",
+    spicesBoard: "CRES",
+    apeda: "RCMC",
+    teaBoard: "Tea Board", // no distinct registration number in the source — client to confirm if one exists
     gstin: "", // CLIENT TO CONFIRM
     cin: "", // CLIENT TO CONFIRM
     fdaFfr: "", // CLIENT TO CONFIRM
@@ -97,13 +100,15 @@ export const company: Company = {
     whatsapp: "+91 91810 90279",
   },
   tradeTerms: {
-    incoterms: "", // CLIENT TO CONFIRM
-    ports: "", // CLIENT TO CONFIRM
-    payment: "", // CLIENT TO CONFIRM
+    // Supplied by the client (screenshot of the trade terms card, 2026-09).
+    minimumOrder: "One 20 ft container (FCL) · mixed-product loads accepted · white-label tea from 18 MT",
+    incoterms: "CIF · CFR · FOB",
+    ports: "Kolkata · Mundra · Nhava Sheva (JNPT)",
+    payment: "Flexible terms for long-term buyers, agreed per contract",
     transitUk: "", // CLIENT TO CONFIRM
     transitUsEast: "", // CLIENT TO CONFIRM
     transitUsWest: "", // CLIENT TO CONFIRM
-    samplePolicy: "", // CLIENT TO CONFIRM
+    samplePolicy: "Free samples · buyer pays courier · dispatched within 7 days",
   },
   stats: {
     established: "", // CLIENT TO CONFIRM
@@ -111,8 +116,29 @@ export const company: Company = {
     shipmentsDelivered: "", // CLIENT TO CONFIRM
   },
   markets: ["UAE", "Oman", "Qatar", "Saudi Arabia", "China", "UK", "USA", "Netherlands", "Vietnam"],
-  testPanel: [], // CLIENT TO CONFIRM — real parameters/limits per lot
-  documents: [], // CLIENT TO CONFIRM — actual document set issued
+  // Supplied by the client (screenshot of the per-lot test panel card,
+  // 2026-09).
+  testPanel: [
+    { parameter: "Testing laboratory", standard: "NABL-accredited, report with every lot" },
+    { parameter: "Moisture", standard: "Per lot, to the agreed product spec" },
+    { parameter: "Aflatoxin B1 & total", standard: "EU limits — Reg. (EU) 2023/915" },
+    { parameter: "Pesticide residues", standard: "EU MRL — Reg. (EC) 396/2005" },
+    { parameter: "Ethylene oxide (EtO)", standard: "Tested on request" },
+    { parameter: "Sudan dyes I–IV", standard: "Chillies & turmeric, on request" },
+    { parameter: "Microbiology", standard: "Salmonella · E. coli · TPC · yeast & mould" },
+  ],
+  // Supplied by the client (screenshot of the documents issued card,
+  // 2026-09).
+  documents: [
+    "Commercial Invoice",
+    "Packing List",
+    "Bill of Lading",
+    "Certificate of Origin",
+    "Phytosanitary Certificate",
+    "NABL Lab Test Report (COA)",
+    "Fumigation Certificate (where required)",
+    "Health Certificate (where required)",
+  ],
 };
 
 /**

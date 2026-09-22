@@ -19,7 +19,9 @@ export type IconName =
   | "arrowRight"
   | "arrowDown"
   | "chevronDown"
-  | "question";
+  | "question"
+  | "flask"
+  | "certificate";
 
 export interface IconBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   icon: IconName;
@@ -147,6 +149,18 @@ const PATHS: Record<IconName, React.ReactNode> = {
     <>
       <path d="M9 9a3 3 0 1 1 4 2.83c-.9.35-1.5 1.09-1.5 2.17v.5" />
       <path d="M12 17.5h.01" />
+    </>
+  ),
+  flask: (
+    <>
+      <path d="M9.5 3.5h5M10 3.5v5.8L5.7 17a2 2 0 0 0 1.8 2.9h9a2 2 0 0 0 1.8-2.9L14 9.3V3.5" />
+      <path d="M7.5 15h9" />
+    </>
+  ),
+  certificate: (
+    <>
+      <circle cx="12" cy="9.5" r="6" />
+      <path d="M9.3 14.7L8 21l4-2.2L16 21l-1.3-6.3" />
     </>
   ),
 };
