@@ -219,27 +219,18 @@ export function Catalogue({ initialCategory = "all", limit, showIntro = true }: 
 
         {/* Desktop: exact reference layout — pre-built diagonal-cut
             background image (dark ground + leaf branch + spice bowl),
-            content positioned in the two zones it defines. */}
+            content positioned in the two zones it defines. The source
+            asset shipped with a baked-in white margin around its own
+            rounded corners (visible as a border against bg-surface); this
+            .webp is a tight crop with the corners masked to transparent
+            instead, so the page's cream ground shows through cleanly. */}
         <div className="relative mt-16 hidden overflow-hidden rounded-card lg:block">
           <Image
-            src="/images/catalogue-cta-banner.jpg"
+            src="/images/catalogue-cta-banner.webp"
             alt=""
-            width={1900}
-            height={828}
+            width={1882}
+            height={805}
             className="h-auto w-full"
-          />
-          {/* Same image overlay scrim technique as the banner above — softens
-              the photo's top/bottom edges into bg-surface instead of a hard
-              rectangular crop. */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-10"
-            style={{ background: "linear-gradient(to bottom, var(--color-surface), transparent)" }}
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-10"
-            style={{ background: "linear-gradient(to top, var(--color-surface), transparent)" }}
           />
 
           <div className="absolute inset-0 flex items-center">

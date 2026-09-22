@@ -17,7 +17,9 @@ export type IconName =
   | "document"
   | "arrowUpRight"
   | "arrowRight"
-  | "arrowDown";
+  | "arrowDown"
+  | "chevronDown"
+  | "question";
 
 export interface IconBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   icon: IconName;
@@ -134,6 +136,17 @@ const PATHS: Record<IconName, React.ReactNode> = {
   arrowDown: (
     <>
       <path d="M12 4v14M6 13l6 6 6-6" />
+    </>
+  ),
+  chevronDown: (
+    <>
+      <path d="M6 9.5l6 6 6-6" />
+    </>
+  ),
+  question: (
+    <>
+      <path d="M9 9a3 3 0 1 1 4 2.83c-.9.35-1.5 1.09-1.5 2.17v.5" />
+      <path d="M12 17.5h.01" />
     </>
   ),
 };
