@@ -60,9 +60,14 @@ export function OriginMap() {
   };
 
   return (
-    <section id="origin" className="bg-brand-deep py-24 lg:py-40">
+    // overflow-anchor:none — the map's per-dot tooltip is absolutely
+    // positioned but still expands the page's scrollable bounds as it
+    // flips above/below and left/right per dot. Without this, Chrome's
+    // scroll anchoring "corrects" the viewport for that change on every
+    // hover, which is what read as the map itself scrolling.
+    <section id="origin" className="bg-brand-deep py-24 lg:py-40 [overflow-anchor:none]">
       <Container>
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-[minmax(0,420px)_1fr] lg:items-center lg:gap-12 xl:gap-24">
+        <div className="grid grid-cols-1 gap-16 lg:grid-cols-[minmax(0,420px)_1fr] lg:items-start lg:gap-12 xl:gap-24">
           {/* LEFT: copy, state pills, live preview card */}
           <div>
             <p className="font-display text-lead text-on-deep-muted">
@@ -115,7 +120,14 @@ export function OriginMap() {
               })}
             </div>
 
-            <div className="relative mt-8 min-h-[124px]">
+            {/* min-h reserves room for the tallest state's content (Assam,
+                4 products, measured ~216px) so switching state never
+                changes this box's height. It used to be a soft 124px
+                floor — real content routinely exceeded it, and browsers'
+                scroll-anchoring "corrects" the viewport for a height
+                change that happens above the fold, which is exactly what
+                read as "the map scrolls when you hover a dot". */}
+            <div className="relative mt-8 min-h-[240px]">
               <motion.div
                 key={activeState}
                 initial={prefersReducedMotion ? undefined : { opacity: 0, y: 10 }}
